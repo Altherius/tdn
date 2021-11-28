@@ -12,9 +12,14 @@
         <div class="alert alert-info">Aucun match n'a encore été joué dans ce tournoi.</div>
     {% endif %}
 
-    {% for match in matches %}
-        {{ match.hostingTeam.name }} <b>{{ match.hostingTeamScore }}</b> - <b>{{ match.receivingTeamScore }}</b> {{ match.receivingTeam.name }}
-    {% endfor %}
+    <ul>
+        {% for match in matches %}
+            <li>
+                {{ match.hostingTeam.name }} <b>{{ match.hostingTeamScore }}</b> - <b>{{ match.receivingTeamScore }}</b> {{ match.receivingTeam.name }}
+            </li>
+        {% endfor %}
+    </ul>
+
 
 {% endblock %}
 

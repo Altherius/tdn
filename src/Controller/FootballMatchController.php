@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\FootballMatch;
 use App\Elo\EloCalculator;
 use App\Form\FootballMatchType;
-use Chovanec\Rating\Rating;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
