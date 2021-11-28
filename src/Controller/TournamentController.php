@@ -22,7 +22,9 @@ class TournamentController extends AbstractController
         ]);
     }
 
-    #[Route('/tournament/{id}', name: 'tournament_view')]
+    #[Route('/tournament/{id}', name: 'tournament_view', requirements: [
+        "id" => "\d+"
+    ])]
     public function view(Tournament $tournament, EntityManagerInterface $manager): Response
     {
         $matches = $manager->getRepository(FootballMatch::class)->findBy([

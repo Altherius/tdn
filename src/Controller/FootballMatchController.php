@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\FootballMatch;
+use App\Entity\Tournament;
 use App\Elo\EloCalculator;
 use App\Form\FootballMatchType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +20,13 @@ class FootballMatchController extends AbstractController
         $eloCalculator = new EloCalculator();
 
 
+
         $match = new FootballMatch();
+        if ($id = $request->query->has('tournament')) {
+            $tournament = $manager->getRepository(Tournament::class)->find($id);
+            $match->setTournament($tournament);
+        }
+
         $form = $this->createForm(FootballMatchType::class, $match);
 
         $form->handleRequest($request);
