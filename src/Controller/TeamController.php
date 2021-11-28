@@ -15,7 +15,10 @@ class TeamController extends AbstractController
     #[Route('/', name: 'team_index')]
     public function index(EntityManagerInterface $manager): Response
     {
-        $teams = $manager->getRepository(Team::class)->findAll();
+        $teams = $manager->getRepository(Team::class)->findBy([
+            [],
+            ['rating' => 'desc']
+        ]);
         return $this->render('team/index.html.twig', [
             'teams' => $teams
         ]);
