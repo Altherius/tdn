@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tournois{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Liste des tournois</h1>
+    <hr>
+
+    <a href="{{ path('tournament_create') }}" class="btn btn-outline-success">
+        Créer un tournoi
+    </a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Date d'organisation</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tournament in tournaments %}
+            <tr>
+                <td>
+                    <a href="{{ path('tournament_view', {'id': tournament.id}) }}">
+                        {{ tournament.name }}
+                    </a>
+                </td>
+                <td>
+                    Du {{ tournament.startedAt|date('d/m/Y') }} au {{ tournament.endedAt|date('d/m/Y') }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

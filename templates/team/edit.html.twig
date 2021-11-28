@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Éditer une équipe : {{ team.name }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Éditer une équipe : {{ team.name }}</h1>
+    <hr>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-outline-primary">Éditer l'équipe</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+

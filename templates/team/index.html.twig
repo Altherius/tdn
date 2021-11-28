@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classement des pays{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">
+        Classement des pays
+    </h1>
+    <hr>
+
+    <a href="{{ path('team_create') }}" class="btn btn-outline-success">
+        Créer une équipe
+    </a>
+
+    <a href="{{ path('tournament_create') }}" class="btn btn-outline-success">
+        Créer un tournoi
+    </a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pays</th>
+                <th>Classement</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+                <tr>
+                    <td>
+                        <img src="https://www.countryflagicons.com/FLAT/16/{{ team.countryCode }}.png" alt="{{ team.countryCode }}">
+                        <a href="{{ path('team_edit', {"id": team.id}) }}">{{ team.name }}</a>
+                    </td>
+                    <td>{{ team.rating }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
