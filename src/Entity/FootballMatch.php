@@ -45,6 +45,11 @@ class FootballMatch
      */
     private Tournament $tournament;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private string $description;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +111,18 @@ class FootballMatch
     public function setTournament(?Tournament $tournament): self
     {
         $this->tournament = $tournament;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
