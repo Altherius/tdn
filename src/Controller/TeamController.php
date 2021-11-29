@@ -51,6 +51,18 @@ class TeamController extends AbstractController
                     'label' => 'Buts marqués par match',
                     'data' => array_map(static function($i) { return $i['scored']; }, $statValues),
                     'backgroundColor' => array_map(static function($i) { return $i['color']; }, $statValues),
+                    'minBarLength' => 2,
+                ]
+            ]
+        ]);
+        $scoredGoalsChart->setOptions([
+            'scales' => [
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true
+                        ]
+                    ]
                 ]
             ]
         ]);
@@ -66,6 +78,18 @@ class TeamController extends AbstractController
                     'label' => 'Buts encaissés par match',
                     'data' => array_map(static function($i) { return $i['taken']; }, $statValues),
                     'backgroundColor' => array_map(static function($i) { return $i['color']; }, $statValues),
+                    'minBarLength' => 2,
+                ]
+            ]
+        ]);
+        $takenGoalsChart->setOptions([
+            'scales' => [
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true
+                        ]
+                    ]
                 ]
             ]
         ]);
