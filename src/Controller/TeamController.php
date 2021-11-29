@@ -43,7 +43,7 @@ class TeamController extends AbstractController
             }
         }
 
-        $scoredGoals = array_map(static function($i) { return $i / 2.0;}, $scoredGoals);
+        $scoredGoals = array_map(static function($i) { return $i / 4.0;}, $scoredGoals);
         arsort($scoredGoals);
         $labels = array_keys($scoredGoals);
 
