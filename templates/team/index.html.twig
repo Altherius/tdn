@@ -34,7 +34,7 @@
                     <td>{{ loop.index }}</td>
                     <td>
                         <img src="https://www.countryflagicons.com/FLAT/16/{{ team.countryCode }}.png" alt="{{ team.countryCode }}">
-                        <a href="{{ path('team_edit', {"id": team.id}) }}">{{ team.name }}</a>
+                        <a href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
                     </td>
                     <td>{{ team.rating }}</td>
                 </tr>

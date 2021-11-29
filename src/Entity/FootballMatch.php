@@ -48,7 +48,7 @@ class FootballMatch
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private string $description;
+    private ?string $description;
 
     public function getId(): ?int
     {

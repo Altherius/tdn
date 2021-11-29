@@ -40,7 +40,19 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/team/edit/{id}', name: 'team_edit')]
+    #[Route('/team/{id}', name: 'team_view', requirements: [
+        'id' => '\d+'
+    ])]
+    public function view(Team $team, Request $request, EntityManagerInterface $manager): Response
+    {
+        return $this->render('team/view.html.twig', [
+            'team' => $team
+        ]);
+    }
+
+    #[Route('/team/edit/{id}', name: 'team_edit', requirements: [
+        'id' => '\d+'
+    ])]
     public function edit(Team $team, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(TeamType::class, $team);
