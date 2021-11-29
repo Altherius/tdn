@@ -20,13 +20,13 @@ class FootballMatch
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Team::class)
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="matchesHosting")
      * @ORM\JoinColumn(nullable=false)
      */
     private Team $hostingTeam;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Team::class)
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="matchesReceiving")
      * @ORM\JoinColumn(nullable=false)
      */
     private Team $receivingTeam;

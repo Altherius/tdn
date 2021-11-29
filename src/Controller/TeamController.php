@@ -28,61 +28,40 @@ class TeamController extends AbstractController
     #[Route('/stats', name: 'team_stats')]
     public function stats(EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
     {
-        $teams = $manager->getRepository(Team::class)->findRankings();
-        $scoredHostingGoalsArray = $manager->getRepository(FootballMatch::class)->findByHostingScoredGoals();
-        $scoredGoals = [];
-        foreach ($scoredHostingGoalsArray as $team) {
-            $scoredGoals[$team['name']] = (float) $team['scoredPerMatch'];
-        }
-        $scoredReceivingGoalsArray = $manager->getRepository(FootballMatch::class)->findByReceivingScoredGoals();
-        foreach ($scoredReceivingGoalsArray as $team) {
-            if (isset($scoredGoals[$team['name']])) {
-                $scoredGoals[$team['name']] += (float) $team['scoredPerMatch'];
-            } else {
-                $scoredGoals[$team['name']] = (float) $team['scoredPerMatch'];
-            }
+        $teams = $manager->getRepository(Team::class)->findAll();
+        $stats = [];
+        foreach ($teams as $team) {
+            $stats[$team->getName()] = [
+                'scored' => $team->getScoredGoalsPerMatch(),
+                'taken' => $team->getTakenGoalsPerMatch(),
+                'color' => $team->getColor()
+            ];
         }
 
-        $scoredGoals = array_map(static function($i) { return $i / 4.0;}, $scoredGoals);
-        arsort($scoredGoals);
-        $labels = array_keys($scoredGoals);
+        $statValues = array_values($stats);
 
-        $takenHostingGoalsArray = $manager->getRepository(FootballMatch::class)->findByHostingTakenGoals();
-        $takenGoals = [];
-        foreach ($takenHostingGoalsArray as $team) {
-            $takenGoals[$team['name']] = (float) $team['scoredPerMatch'];
-        }
-        $takenReceivingGoalsArray = $manager->getRepository(FootballMatch::class)->findByReceivingTakenGoals();
-        foreach ($takenReceivingGoalsArray as $team) {
-            if (isset($takenGoals[$team['name']])) {
-                $takenGoals[$team['name']] += (float) $team['scoredPerMatch'];
-            } else {
-                $takenGoals[$team['name']] = (float) $team['scoredPerMatch'];
-            }
-        }
 
-        $takenGoals = array_map(static function($i) { return $i / 4.0;}, $takenGoals);
-        arsort($takenGoals);
-        $takenLabels = array_keys($takenGoals);
 
         $scoredGoalsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $scoredGoalsChart->setData([
-            'labels' => $labels,
+            'labels' => array_keys($stats),
             'datasets' => [
                 [
                     'label' => 'Buts marqués par match',
-                    'data' => array_values($scoredGoals),
+                    'data' => array_map(static function($i) { return $i['scored']; }, $statValues),
+                    'backgroundColor' => array_map(static function($i) { return $i['color']; }, $statValues),
                 ]
             ]
         ]);
 
         $takenGoalsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $takenGoalsChart->setData([
-            'labels' => $takenLabels,
+            'labels' => array_keys($stats),
             'datasets' => [
                 [
                     'label' => 'Buts encaissés par match',
-                    'data' => array_values($takenGoals),
+                    'data' => array_map(static function($i) { return $i['taken']; }, $statValues),
+                    'backgroundColor' => array_map(static function($i) { return $i['color']; }, $statValues),
                 ]
             ]
         ]);

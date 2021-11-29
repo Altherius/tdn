@@ -55,10 +55,24 @@ class Team
      */
     private Collection $defeats;
 
+    /**
+     * @var Collection<FootballMatch> $matchesHosting
+     * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="hostingTeam")
+     */
+    private Collection $matchesHosting;
+
+    /**
+     * @var Collection<FootballMatch> $matchesHosting
+     * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="receivingTeam")
+     */
+    private Collection $matchesReceiving;
+
     #[Pure] public function __construct()
     {
         $this->victories = new ArrayCollection();
         $this->defeats = new ArrayCollection();
+        $this->matchesHosting = new ArrayCollection();
+        $this->matchesReceiving = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,5 +191,46 @@ class Team
         }
 
         return $this;
+    }
+
+
+    public function getMatchesHosting(): Collection
+    {
+        return $this->matchesHosting;
+    }
+
+    public function getMatchesReceiving(): Collection
+    {
+        return $this->matchesReceiving;
+    }
+
+    public function getScoredGoalsPerMatch(): float
+    {
+        $scored = 0;
+        foreach ($this->matchesReceiving as $match) {
+            $scored += $match->getReceivingTeamScore();
+        }
+        foreach ($this->matchesHosting as $match) {
+            $scored += $match->getHostingTeamScore();
+        }
+
+        $count = count($this->matchesHosting) + count($this->matchesReceiving);
+
+        return ($scored / $count) / 2;
+    }
+
+    public function getTakenGoalsPerMatch(): float
+    {
+        $taken = 0;
+        foreach ($this->matchesReceiving as $match) {
+            $taken += $match->getHostingTeamScore();
+        }
+        foreach ($this->matchesHosting as $match) {
+            $taken += $match->getReceivingTeamScore();
+        }
+
+        $count = count($this->matchesHosting) + count($this->matchesReceiving);
+
+        return ($taken / $count) / 2;
     }
 }
