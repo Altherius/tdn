@@ -16,6 +16,6 @@ class EloCalculator
         }
         $winProbability = 1 / (1 + (10 ** (-$eloDiff / 400)));
 
-        return 20 * ($result - $winProbability);
+        return 80 * ($result - $winProbability);
     }
 }
