@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\FootballMatch;
+use App\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,32 +20,21 @@ class FootballMatchRepository extends ServiceEntityRepository
         parent::__construct($registry, FootballMatch::class);
     }
 
-    // /**
-    //  * @return FootballMatch[] Returns an array of FootballMatch objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findWithTeamQuery(Team $team)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->orWhere('m.hostingTeam = :team')
+            ->orWhere('m.receivingTeam = :team')
+            ->setParameter('team', $team)
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?FootballMatch
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $qb->getQuery();
     }
-    */
+
+    public function findWithTeam(Team $team)
+    {
+        $query = $this->findWithTeamQuery($team);
+        return $query->getResult();
+    }
 }

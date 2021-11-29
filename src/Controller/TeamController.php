@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\FootballMatch;
 use App\Entity\Team;
 use App\Form\TeamType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class TeamController extends AbstractController
 {
@@ -43,10 +46,82 @@ class TeamController extends AbstractController
     #[Route('/team/{id}', name: 'team_view', requirements: [
         'id' => '\d+'
     ])]
-    public function view(Team $team, Request $request, EntityManagerInterface $manager): Response
+    public function view(Team $team, Request $request, EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
     {
+        $matches = $manager->getRepository(FootballMatch::class)->findWithTeam($team);
+
+        $victories = array_filter($matches, static function($match) use ($team) {
+            return $match->getWinner() === $team;
+        });
+
+        $draws = array_filter($matches, static function($match) use ($team) {
+            return $match->getWinner() === null;
+        });
+
+        $defeats = array_filter($matches, static function($match) use ($team) {
+            return $match->getLoser() === $team;
+        });
+
+        $goalsFor = 0;
+        $goalsAgainst = 0;
+
+        foreach ($victories as $victory) {
+            $goalsFor += max($victory->getHostingTeamScore(), $victory->getReceivingTeamScore());
+            $goalsAgainst += min($victory->getHostingTeamScore(), $victory->getReceivingTeamScore());
+        }
+        foreach ($defeats as $defeat) {
+            $goalsFor += min($defeat->getHostingTeamScore(), $defeat->getReceivingTeamScore());
+            $goalsAgainst += max($defeat->getHostingTeamScore(), $defeat->getReceivingTeamScore());
+        }
+        foreach ($draws as $draw) {
+            $goalsFor += $draw->getHostingTeamScore();
+            $goalsAgainst += $draw->getHostingTeamScore();
+        }
+
+
+        $chart = $chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
+        $chart->setData([
+            'labels' => [
+                'Victoires',
+                'Nuls',
+                'Défaites'
+            ],
+            'datasets' => [
+                [
+                    'label' => 'Statistiques',
+                    'data' => [count($victories), count($draws), count($defeats)],
+                    'backgroundColor' => [
+                        '#28a745',
+                        '#ffc107',
+                        '#dc3545'
+                    ]
+                ],
+            ]
+        ]);
+
+        $goalChart = $chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
+        $goalChart->setData([
+            'labels' => [
+                'Buts marqués',
+                'Buts encaissés',
+            ],
+            'datasets' => [
+                [
+                    'label' => 'Statistiques',
+                    'data' => [$goalsFor, $goalsAgainst],
+                    'backgroundColor' => [
+                        '#28a745',
+                        '#dc3545'
+                    ]
+                ],
+            ]
+        ]);
+
         return $this->render('team/view.html.twig', [
-            'team' => $team
+            'team' => $team,
+            'matches' => $matches,
+            'chart' => $chart,
+            'goalChart' => $goalChart
         ]);
     }
 

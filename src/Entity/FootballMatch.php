@@ -50,6 +50,21 @@ class FootballMatch
      */
     private ?string $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="victories")
+     */
+    private ?Team $winner;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="defeats")
+     */
+    private ?Team $loser;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $penalties = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -125,5 +140,46 @@ class FootballMatch
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getWinner(): ?Team
+    {
+        return $this->winner;
+    }
+
+    public function setWinner(?Team $winner): self
+    {
+        $this->winner = $winner;
+
+        return $this;
+    }
+
+    public function getLoser(): ?Team
+    {
+        return $this->loser;
+    }
+
+    public function setLoser(?Team $loser): self
+    {
+        $this->loser = $loser;
+
+        return $this;
+    }
+
+    public function getPenalties(): bool
+    {
+        return $this->penalties;
+    }
+
+    public function setPenalties(bool $penalties): self
+    {
+        $this->penalties = $penalties;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getHostingTeam() . ' ' . $this->getHostingTeamScore() . '-' . $this->getReceivingTeamScore() . ' ' . $this->getReceivingTeam();
     }
 }

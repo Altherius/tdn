@@ -14,6 +14,16 @@
         Éditer cette équipe
     </a>
     <hr>
+    <h2>Statistiques</h2>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            {{ render_chart(chart) }}
+        </div>
+        <div class="col-12 col-lg-6">
+            {{ render_chart(goalChart) }}
+        </div>
+    </div>
+    <hr>
     <h2>Matchs</h2>
     <table class="table">
         <thead>
@@ -25,8 +35,8 @@
         </tr>
         </thead>
         <tbody>
-        {% for match in team.footballMatches %}
-            <tr>
+        {% for match in matches %}
+            <tr class="{{ match.winner == team ? "table-success" : match.loser == team ? "table-danger" : "table-warning" }}">
                 <td>{{ match.hostingTeam }} - {{ match.receivingTeam }}</td>
                 <td>{{ match.tournament.name }}</td>
                 <td>{{ match.hostingTeamScore }} - {{ match.receivingTeamScore }}</td>

@@ -30,11 +30,6 @@ class Team
     private string $color;
 
     /**
-     * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="hostingTeam", orphanRemoval=true)
-     */
-    private Collection $footballMatches;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private int $rating = 1200;
@@ -44,9 +39,21 @@ class Team
      */
     private string $countryCode;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="winner")
+     */
+    private $victories;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="loser")
+     */
+    private $defeats;
+
     public function __construct()
     {
         $this->footballMatches = new ArrayCollection();
+        $this->victories = new ArrayCollection();
+        $this->defeats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,36 +81,6 @@ class Team
     public function setColor(string $color): self
     {
         $this->color = $color;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|FootballMatch[]
-     */
-    public function getFootballMatches(): Collection
-    {
-        return $this->footballMatches;
-    }
-
-    public function addFootballMatch(FootballMatch $footballMatch): self
-    {
-        if (!$this->footballMatches->contains($footballMatch)) {
-            $this->footballMatches[] = $footballMatch;
-            $footballMatch->setHostingTeam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFootballMatch(FootballMatch $footballMatch): self
-    {
-        if ($this->footballMatches->removeElement($footballMatch)) {
-            // set the owning side to null (unless already changed)
-            if ($footballMatch->getHostingTeam() === $this) {
-                $footballMatch->setHostingTeam(null);
-            }
-        }
 
         return $this;
     }
@@ -141,5 +118,65 @@ class Team
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection|FootballMatch[]
+     */
+    public function getVictories(): Collection
+    {
+        return $this->victories;
+    }
+
+    public function addVictory(FootballMatch $victory): self
+    {
+        if (!$this->victories->contains($victory)) {
+            $this->victories[] = $victory;
+            $victory->setWinner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVictory(FootballMatch $victory): self
+    {
+        if ($this->victories->removeElement($victory)) {
+            // set the owning side to null (unless already changed)
+            if ($victory->getWinner() === $this) {
+                $victory->setWinner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FootballMatch[]
+     */
+    public function getDefeats(): Collection
+    {
+        return $this->defeats;
+    }
+
+    public function addDefeat(FootballMatch $defeat): self
+    {
+        if (!$this->defeats->contains($defeat)) {
+            $this->defeats[] = $defeat;
+            $defeat->setLoser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDefeat(FootballMatch $defeat): self
+    {
+        if ($this->defeats->removeElement($defeat)) {
+            // set the owning side to null (unless already changed)
+            if ($defeat->getLoser() === $this) {
+                $defeat->setLoser(null);
+            }
+        }
+
+        return $this;
     }
 }
