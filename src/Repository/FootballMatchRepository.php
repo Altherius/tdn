@@ -51,6 +51,30 @@ class FootballMatchRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findByHostingTakenGoals()
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->join('m.hostingTeam', 't')
+            ->select('t.id, t.name, (SUM(m.receivingTeamScore) / COUNT(m.receivingTeamScore / 2)) as scoredPerMatch')
+            ->groupBy('m.hostingTeam');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+    public function findByReceivingTakenGoals()
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->join('m.receivingTeam', 't')
+            ->select('t.id, t.name, (SUM(m.hostingTeamScore) / COUNT(m.hostingTeamScore / 2)) as scoredPerMatch')
+            ->groupBy('m.receivingTeam');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     public function findByReceivingScoredGoals()
     {
         $qb = $this->createQueryBuilder('m');

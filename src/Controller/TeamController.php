@@ -47,6 +47,24 @@ class TeamController extends AbstractController
         arsort($scoredGoals);
         $labels = array_keys($scoredGoals);
 
+        $takenHostingGoalsArray = $manager->getRepository(FootballMatch::class)->findByHostingTakenGoals();
+        $takenGoals = [];
+        foreach ($takenHostingGoalsArray as $team) {
+            $takenGoals[$team['name']] = (float) $team['scoredPerMatch'];
+        }
+        $takenReceivingGoalsArray = $manager->getRepository(FootballMatch::class)->findByReceivingTakenGoals();
+        foreach ($takenReceivingGoalsArray as $team) {
+            if (isset($takenGoals[$team['name']])) {
+                $takenGoals[$team['name']] += (float) $team['scoredPerMatch'];
+            } else {
+                $takenGoals[$team['name']] = (float) $team['scoredPerMatch'];
+            }
+        }
+
+        $takenGoals = array_map(static function($i) { return $i / 4.0;}, $takenGoals);
+        arsort($takenGoals);
+        $takenLabels = array_keys($takenGoals);
+
         $scoredGoalsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $scoredGoalsChart->setData([
             'labels' => $labels,
@@ -58,10 +76,21 @@ class TeamController extends AbstractController
             ]
         ]);
 
+        $takenGoalsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
+        $takenGoalsChart->setData([
+            'labels' => $takenLabels,
+            'datasets' => [
+                [
+                    'label' => 'Buts encaissés par match',
+                    'data' => array_values($takenGoals),
+                ]
+            ]
+        ]);
 
         return $this->render('team/stats.html.twig', [
             'teams' => $teams,
-            'scoredChart' => $scoredGoalsChart
+            'scoredChart' => $scoredGoalsChart,
+            'takenChart' => $takenGoalsChart
         ]);
     }
 
