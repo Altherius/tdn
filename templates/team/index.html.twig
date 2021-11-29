@@ -8,27 +8,16 @@
     </h1>
     <hr>
 
-    <a href="{{ path('team_create') }}" class="btn btn-outline-success">
-        Créer une équipe
-    </a>
-
-    <a href="{{ path('tournament_create') }}" class="btn btn-outline-success">
-        Créer un tournoi
-    </a>
-
-    <a href="{{ path('tournament_index') }}" class="btn btn-outline-primary">
-        Liste des tournois
-    </a>
-
-    <table class="table">
-        <thead>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
             <tr>
                 <th>Classement</th>
                 <th>Pays</th>
                 <th>Classement</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for team in teams %}
                 <tr>
                     <td>{{ loop.index }}</td>
@@ -39,6 +28,7 @@
                     <td>{{ team.rating }}</td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

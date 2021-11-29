@@ -10,26 +10,29 @@
         Créer un tournoi
     </a>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Date d'organisation</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for tournament in tournaments %}
+    <div class="table-responsiv">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
             <tr>
-                <td>
-                    <a href="{{ path('tournament_view', {'id': tournament.id}) }}">
-                        {{ tournament.name }}
-                    </a>
-                </td>
-                <td>
-                    Du {{ tournament.startedAt|date('d/m/Y') }} au {{ tournament.endedAt|date('d/m/Y') }}
-                </td>
+                <th>Nom</th>
+                <th>Date d'organisation</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for tournament in tournaments %}
+                <tr>
+                    <td>
+                        <a href="{{ path('tournament_view', {'id': tournament.id}) }}">
+                            {{ tournament.name }}
+                        </a>
+                    </td>
+                    <td>
+                        Du {{ tournament.startedAt|date('d/m/Y') }} au {{ tournament.endedAt|date('d/m/Y') }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}
