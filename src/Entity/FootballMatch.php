@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\Elo\EloCalculator;
 use App\Repository\FootballMatchRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=FootballMatchRepository::class)
@@ -18,7 +20,7 @@ class FootballMatch
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="footballMatches")
+     * @ORM\ManyToOne(targetEntity=Team::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private Team $hostingTeam;
@@ -178,8 +180,27 @@ class FootballMatch
         return $this;
     }
 
-    public function __toString(): string
+    #[Pure] public function getHostingTeamResult(): float
+    {
+        if ($this->getWinner() === $this->getHostingTeam()) {
+            return EloCalculator::WIN;
+        }
+
+        if ($this->getLoser() === $this->getHostingTeam()) {
+            return EloCalculator::LOSE;
+        }
+
+        return EloCalculator::DRAW;
+    }
+
+    #[Pure] public function __toString(): string
     {
         return $this->getHostingTeam() . ' ' . $this->getHostingTeamScore() . '-' . $this->getReceivingTeamScore() . ' ' . $this->getReceivingTeam();
+    }
+
+    public function toStringWithElo(): string
+    {
+        return $this->getHostingTeam() . ' (' . $this->getHostingTeam()?->getRating() . ') ' . $this->getHostingTeamScore() . '-' .
+               $this->getReceivingTeamScore() . ' ' . $this->getReceivingTeam() . ' (' . $this->getReceivingTeam()?->getRating() . ') ';
     }
 }

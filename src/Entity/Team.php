@@ -6,9 +6,12 @@ use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=TeamRepository::class)
+ * @Gedmo\Loggable()
  */
 class Team
 {
@@ -31,6 +34,7 @@ class Team
 
     /**
      * @ORM\Column(type="integer")
+     * @Gedmo\Versioned()
      */
     private int $rating = 1200;
 
@@ -41,17 +45,18 @@ class Team
 
     /**
      * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="winner")
+     * @var Collection<FootballMatch> $victories
      */
-    private $victories;
+    private Collection $victories;
 
     /**
      * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="loser")
+     * @var Collection<FootballMatch> $defeats
      */
-    private $defeats;
+    private Collection $defeats;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->footballMatches = new ArrayCollection();
         $this->victories = new ArrayCollection();
         $this->defeats = new ArrayCollection();
     }
@@ -120,9 +125,6 @@ class Team
         return $this->name;
     }
 
-    /**
-     * @return Collection|FootballMatch[]
-     */
     public function getVictories(): Collection
     {
         return $this->victories;
@@ -150,9 +152,6 @@ class Team
         return $this;
     }
 
-    /**
-     * @return Collection|FootballMatch[]
-     */
     public function getDefeats(): Collection
     {
         return $this->defeats;

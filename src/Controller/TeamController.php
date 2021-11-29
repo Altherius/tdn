@@ -6,6 +6,7 @@ use App\Entity\FootballMatch;
 use App\Entity\Team;
 use App\Form\TeamType;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Loggable\Entity\LogEntry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,6 +63,25 @@ class TeamController extends AbstractController
             return $match->getLoser() === $team;
         });
 
+        $eloHistory = [];
+        $eloHistoryArray = $manager->getRepository(LogEntry::class)->getLogEntries($team);
+        $i = 1;
+        foreach ($eloHistoryArray as $elo) {
+            $eloHistory[] = $elo->getData()['rating'];
+            $i++;
+            if ($i >= 100) {
+                break;
+            }
+        }
+        $eloHistory = array_reverse($eloHistory);
+        $labels = [];
+        $i = 1;
+        while ($i < count($eloHistory)) {
+            $labels[] = $i;
+            ++$i;
+        }
+
+
         $goalsFor = 0;
         $goalsAgainst = 0;
 
@@ -77,6 +97,20 @@ class TeamController extends AbstractController
             $goalsFor += $draw->getHostingTeamScore();
             $goalsAgainst += $draw->getHostingTeamScore();
         }
+
+        $eloHistoryChart = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $eloHistoryChart->setData([
+           'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Historique du classement',
+                    'data' => $eloHistory,
+                    'fill' => true,
+                    'borderColor' => 'rgb(75, 192, 192)',
+                    'tension' => 0.1
+                ],
+            ]
+        ]);
 
 
         $chart = $chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
@@ -121,7 +155,8 @@ class TeamController extends AbstractController
             'team' => $team,
             'matches' => $matches,
             'chart' => $chart,
-            'goalChart' => $goalChart
+            'goalChart' => $goalChart,
+            'eloHistoryChart' => $eloHistoryChart
         ]);
     }
 
