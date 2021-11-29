@@ -38,6 +38,7 @@ class TeamController extends AbstractController
             ];
         }
 
+        uasort($stats, static function($a, $b) { return $a['scored'] < $b['scored']; });
         $statValues = array_values($stats);
 
 
@@ -53,6 +54,9 @@ class TeamController extends AbstractController
                 ]
             ]
         ]);
+
+        uasort($stats, static function($a, $b) { return $a['taken'] < $b['taken']; });
+        $statValues = array_values($stats);
 
         $takenGoalsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $takenGoalsChart->setData([
