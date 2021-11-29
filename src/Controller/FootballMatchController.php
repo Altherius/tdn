@@ -65,4 +65,34 @@ class FootballMatchController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/match/edit/{id}', name: 'match_edit')]
+    public function edit(FootballMatch $match, Request $request, EntityManagerInterface $manager): Response
+    {
+        $eloCalculator = new EloCalculator();
+        if ($id = $request->query->has('tournament')) {
+            $tournament = $manager->getRepository(Tournament::class)->find($id);
+            $match->setTournament($tournament);
+        }
+
+        $form = $this->createForm(FootballMatchType::class, $match);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($match->getReceivingTeamScore() > $match->getHostingTeamScore()) {
+                $match->setWinner($match->getReceivingTeam());
+            } else if ($match->getReceivingTeamScore() < $match->getHostingTeamScore()) {
+                $match->setWinner($match->getHostingTeam());
+            }
+            $manager->persist($match);
+            $manager->flush();
+
+            $this->addFlash('success', "Le match " . $match->getHostingTeam() . " - " . $match->getReceivingTeam() .  " a bien été édité");
+        }
+
+        return $this->render('football_match/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }
