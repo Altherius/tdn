@@ -23,7 +23,7 @@ class TeamRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('t');
 
-        $qb->orderBy('t.rating');
+        $qb->orderBy('t.rating', 'desc');
 
         return $qb->getQuery()->getResult();
     }
