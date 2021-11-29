@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Statistiques des équipes
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Statistiques des équipes</h1>
+    <hr>
+    {{ render_chart(scoredChart) }}
+{% endblock %}
+
+
+

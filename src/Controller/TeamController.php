@@ -25,6 +25,46 @@ class TeamController extends AbstractController
         ]);
     }
 
+    #[Route('/stats', name: 'team_stats')]
+    public function stats(EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
+    {
+        $teams = $manager->getRepository(Team::class)->findRankings();
+        $scoredHostingGoalsArray = $manager->getRepository(FootballMatch::class)->findByHostingScoredGoals();
+        $scoredGoals = [];
+        foreach ($scoredHostingGoalsArray as $team) {
+            $scoredGoals[$team['name']] = (float) $team['scoredPerMatch'];
+        }
+        $scoredReceivingGoalsArray = $manager->getRepository(FootballMatch::class)->findByReceivingScoredGoals();
+        foreach ($scoredReceivingGoalsArray as $team) {
+            if (isset($scoredGoals[$team['name']])) {
+                $scoredGoals[$team['name']] += (float) $team['scoredPerMatch'];
+            } else {
+                $scoredGoals[$team['name']] = (float) $team['scoredPerMatch'];
+            }
+        }
+
+        $scoredGoals = array_map(static function($i) { return $i / 2.0;}, $scoredGoals);
+        arsort($scoredGoals);
+        $labels = array_keys($scoredGoals);
+
+        $scoredGoalsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
+        $scoredGoalsChart->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Buts marqués par match',
+                    'data' => array_values($scoredGoals),
+                ]
+            ]
+        ]);
+
+
+        return $this->render('team/stats.html.twig', [
+            'teams' => $teams,
+            'scoredChart' => $scoredGoalsChart
+        ]);
+    }
+
     #[Route('/team/create', name: 'team_create')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {

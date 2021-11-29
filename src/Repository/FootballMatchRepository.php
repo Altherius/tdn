@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\FootballMatch;
 use App\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,7 +21,7 @@ class FootballMatchRepository extends ServiceEntityRepository
         parent::__construct($registry, FootballMatch::class);
     }
 
-    public function findWithTeamQuery(Team $team)
+    public function findWithTeamQuery(Team $team): Query
     {
         $qb = $this->createQueryBuilder('m');
         $qb
@@ -35,6 +36,30 @@ class FootballMatchRepository extends ServiceEntityRepository
     public function findWithTeam(Team $team)
     {
         $query = $this->findWithTeamQuery($team);
+        return $query->getResult();
+    }
+
+    public function findByHostingScoredGoals()
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->join('m.hostingTeam', 't')
+            ->select('t.id, t.name, (SUM(m.hostingTeamScore) / COUNT(m.hostingTeamScore / 2)) as scoredPerMatch')
+            ->groupBy('m.hostingTeam');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+    public function findByReceivingScoredGoals()
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->join('m.receivingTeam', 't')
+            ->select('t.id, t.name, (SUM(m.receivingTeamScore) / COUNT(m.receivingTeamScore / 2)) as scoredPerMatch')
+            ->groupBy('m.receivingTeam');
+
+        $query = $qb->getQuery();
         return $query->getResult();
     }
 }
