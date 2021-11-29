@@ -32,6 +32,12 @@ class FootballMatchController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            if ($match->getReceivingTeamScore() > $match->getHostingTeamScore()) {
+                $match->setWinner($match->getReceivingTeam());
+            } else if ($match->getReceivingTeamScore() < $match->getHostingTeamScore()) {
+                $match->setWinner($match->getHostingTeam());
+            }
+
             $result = EloCalculator::DRAW;
             if ($match->getHostingTeamScore() > $match->getReceivingTeamScore()) {
                 $result = EloCalculator::WIN;
