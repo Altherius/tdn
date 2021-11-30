@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Page non trouvée
+{% endblock %}
+
+
+{% block body %}
+
+    <h3 class="display-1">La page que vous cherchez n'existe pas.</h3>
+    <p class="text-center">
+        <a href="{{ path('team_index') }}">Revenir à l'accueil</a>
+    </p>
+
+{% endblock %}
+
+
