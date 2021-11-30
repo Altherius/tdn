@@ -32,8 +32,8 @@ class TeamController extends AbstractController
         $stats = [];
         foreach ($teams as $team) {
             $stats[$team->getName()] = [
-                'scored' => $team->getScoredGoalsPerMatch(),
-                'taken' => $team->getTakenGoalsPerMatch(),
+                'scored' => round($team->getScoredGoalsPerMatch(), 2),
+                'taken' => round($team->getTakenGoalsPerMatch(), 2),
                 'color' => $team->getColor()
             ];
         }

@@ -9,7 +9,28 @@
     <hr>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="row">
+        <div class="col-12">
+            {{ form_row(form.tournament) }}
+        </div>
+        <div class="col-12 col-md-5">
+            {{ form_row(form.hostingTeam) }}
+        </div>
+        <div class="col-12 col-md-1">
+            {{ form_row(form.hostingTeamScore) }}
+        </div>
+        <div class="col-12 col-md-1">
+            {{ form_row(form.receivingTeamScore) }}
+        </div>
+        <div class="col-12 col-md-5">
+            {{ form_row(form.receivingTeam) }}
+        </div>
+        <div class="col-12">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+
+    {{ form_rest(form) }}
     <button type="submit" class="btn btn-outline-primary">Créer le match</button>
     {{ form_end(form) }}
 {% endblock %}

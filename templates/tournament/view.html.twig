@@ -16,14 +16,33 @@
         <div class="alert alert-info">Aucun match n'a encore été joué dans ce tournoi.</div>
     {% endif %}
 
-    <ul>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Match</th>
+            <th>Résultat</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for match in matches %}
-            <li>
-                {{ match.hostingTeam.name }} <b>{{ match.hostingTeamScore }}</b> - <b>{{ match.receivingTeamScore }}</b> {{ match.receivingTeam.name }} -
-                <a href="{{ path('match_edit', {'id': match.id}) }}">Éditer</a>
-            </li>
+            <tr>
+                <td>
+                    <span class="{{ match.winner == match.hostingTeam  ? 'text-success fw-bold' : '' }}">{{ match.hostingTeam }}</span> -
+                    <span class="{{ match.winner == match.receivingTeam  ? 'text-success fw-bold' : '' }}">{{ match.receivingTeam }}</span>
+
+                </td>
+                <td>{{ match.hostingTeamScore }} - {{ match.receivingTeamScore }}</td>
+                <td>{{ match.description }}</td>
+                <td>
+                    <a href="{{ path('match_edit', {'id': match.id}) }}">Éditer</a>
+                </td>
+            </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
+
 
 
 {% endblock %}

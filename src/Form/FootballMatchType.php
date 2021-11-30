@@ -18,24 +18,36 @@ class FootballMatchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('description', TextareaType::class)
-            ->add('hostingTeamScore', NumberType::class)
-            ->add('receivingTeamScore', NumberType::class)
+            ->add('description', TextareaType::class, [
+                'label' => 'Description'
+            ])
+            ->add('hostingTeamScore', NumberType::class, [
+                'html5' => true,
+                'label' => 'Score'
+            ])
+            ->add('receivingTeamScore', NumberType::class, [
+                'html5' => true,
+                'label' => 'Score'
+            ])
             ->add('hostingTeam', EntityType::class, [
                 'class' => Team::class,
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
-                }
+                },
+                'label' => 'Équipe domicile'
             ])
             ->add('receivingTeam', EntityType::class, [
                 'class' => Team::class,
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
-                }])
+                },
+                'label' => 'Équipe extérieur'
+            ])
             ->add('tournament', EntityType::class, [
-                'class' => Tournament::class
+                'class' => Tournament::class,
+                'label' => 'Tournoi'
             ])
         ;
     }
