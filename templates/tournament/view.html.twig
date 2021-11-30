@@ -8,9 +8,11 @@
 
     <h2>Matchs</h2>
 
-    <a href="{{ path('match_create', {'tournament': tournament.id}) }}" class="btn btn-outline-success">
-        Créer un match
-    </a>
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('match_create', {'tournament': tournament.id}) }}" class="btn btn-outline-success">
+            Créer un match
+        </a>
+    {% endif %}
 
     {% if matches is empty %}
         <div class="alert alert-info">Aucun match n'a encore été joué dans ce tournoi.</div>
@@ -22,7 +24,9 @@
             <th>Match</th>
             <th>Résultat</th>
             <th>Description</th>
+            {% if is_granted('ROLE_USER') %}
             <th>Actions</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -35,9 +39,11 @@
                 </td>
                 <td>{{ match.hostingTeamScore }} - {{ match.receivingTeamScore }}</td>
                 <td>{{ match.description }}</td>
+                {% if is_granted('ROLE_USER') %}
                 <td>
                     <a href="{{ path('match_edit', {'id': match.id}) }}">Éditer</a>
                 </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>

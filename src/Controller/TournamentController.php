@@ -6,6 +6,7 @@ use App\Entity\FootballMatch;
 use App\Entity\Tournament;
 use App\Form\TournamentType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,7 @@ class TournamentController extends AbstractController
     }
 
     #[Route('/tournament/create', name: 'tournament_create')]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $tournament = new Tournament();

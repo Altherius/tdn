@@ -5,7 +5,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav me-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                     Équipes
@@ -13,7 +13,10 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="{{ path('team_index') }}">Classement des équipes</a>
                     <a class="dropdown-item" href="{{ path('team_stats') }}">Statistiques des équipes</a>
-                    <a class="dropdown-item" href="{{ path('team_create') }}">Créer une équipe</a>
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="dropdown-item" href="{{ path('team_create') }}">Créer une équipe</a>
+                    {% endif %}
+
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -21,10 +24,19 @@
                     Tournois
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ path('tournament_create') }}">Créer un tournoi</a>
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="dropdown-item" href="{{ path('tournament_create') }}">Créer un tournoi</a>
+                    {% endif %}
                     <a class="dropdown-item" href="{{ path('tournament_index') }}">Liste des tournois</a>
                 </div>
             </li>
         </ul>
+        <span class="navbar-text me-2">
+            {% if app.user %}
+                Connecté en tant que {{ app.user.userIdentifier }} - <a href="{{ path('app_logout') }}">Déconnexion</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Se connecter</a>
+            {% endif %}
+        </span>
     </div>
 </nav>

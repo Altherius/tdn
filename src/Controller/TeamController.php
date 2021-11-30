@@ -7,6 +7,7 @@ use App\Entity\Team;
 use App\Form\TeamType;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Loggable\Entity\LogEntry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,6 +103,7 @@ class TeamController extends AbstractController
     }
 
     #[Route('/team/create', name: 'team_create')]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $team = new Team();
@@ -239,6 +241,7 @@ class TeamController extends AbstractController
     #[Route('/team/edit/{id}', name: 'team_edit', requirements: [
         'id' => '\d+'
     ])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Team $team, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(TeamType::class, $team);

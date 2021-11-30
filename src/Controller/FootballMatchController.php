@@ -7,6 +7,7 @@ use App\Entity\Tournament;
 use App\Elo\EloCalculator;
 use App\Form\FootballMatchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FootballMatchController extends AbstractController
 {
     #[Route('/match/create', name: 'match_create')]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $eloCalculator = new EloCalculator();
@@ -67,6 +69,7 @@ class FootballMatchController extends AbstractController
     }
 
     #[Route('/match/edit/{id}', name: 'match_edit')]
+    #[IsGranted('ROLE_USER')]
     public function edit(FootballMatch $match, Request $request, EntityManagerInterface $manager): Response
     {
         $eloCalculator = new EloCalculator();
