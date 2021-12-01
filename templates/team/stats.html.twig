@@ -7,9 +7,17 @@
 {% block body %}
     <h1 class="text-center">Statistiques des équipes</h1>
     <hr>
-    {{ render_chart(scoredChart) }}
+    <div style="overflow-x: scroll;">
+        <div class="chart-container" style="position: relative; width: 3600px; height: 600px;">
+            {{ render_chart(scoredChart) }}
+        </div>
+    </div>
     <hr>
-    {{ render_chart(takenChart) }}
+    <div style="overflow-x: scroll;">
+        <div class="chart-container" style="position: relative; width: 3600px; height: 600px;">
+            {{ render_chart(takenChart) }}
+        </div>
+    </div>
 {% endblock %}
 
 

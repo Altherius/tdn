@@ -57,6 +57,7 @@ class TeamController extends AbstractController
             ]
         ]);
         $scoredGoalsChart->setOptions([
+            'maintainAspectRatio' => false,
             'scales' => [
                 'yAxes' => [
                     [
@@ -84,6 +85,7 @@ class TeamController extends AbstractController
             ]
         ]);
         $takenGoalsChart->setOptions([
+            'maintainAspectRatio' => false,
             'scales' => [
                 'yAxes' => [
                     [
