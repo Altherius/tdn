@@ -6,8 +6,15 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+import '@fortawesome/fontawesome-free/css/all.css';
 import './styles/app.css';
 
+import $ from 'jquery';
+import '@popperjs/core';
 import 'bootstrap';
+import 'bootstrap-table';
+import 'bootstrap-table/dist/bootstrap-table-locale-all';
+
+
 // start the Stimulus application
 import './bootstrap';
