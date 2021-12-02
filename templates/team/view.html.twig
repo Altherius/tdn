@@ -8,14 +8,34 @@
 {% block body %}
     <h1 class="text-center">
         Équipe - {{ team.name }}
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('team_edit', {'id': team.id}) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i>
+            </a>
+        {% endif %}
     </h1>
     <hr>
-    {% if is_granted('ROLE_USER') %}
-        <a href="{{ path('team_edit', {'id': team.id}) }}" class="btn btn-outline-warning">
-            Éditer cette équipe
-        </a>
-        <hr>
-    {% endif %}
+
+    <h2>Trophées</h2>
+    <hr>
+    {% for trophy in team.trophies %}
+        <div class="card col-12 col-md-6 col-lg-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-trophy" style="color: goldenrod"></i>
+                    {{ trophy.name }}
+                </h5>
+                <hr>
+                <h6 class="card-subtitle">
+                    <i class="fas fa-futbol"></i>
+                    {{ trophy.tournament }}
+                </h6>
+                <p><i class="fas fa-clock"></i> Décerné le {{ trophy.givenAt|date('d/m/Y') }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <hr>
     <h2>Statistiques</h2>
     <div class="row">
         <div class="col-12 col-lg-6">

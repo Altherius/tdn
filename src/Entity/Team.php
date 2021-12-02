@@ -67,12 +67,18 @@ class Team
      */
     private Collection $matchesReceiving;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Trophy::class, mappedBy="team", orphanRemoval=true)
+     */
+    private $trophies;
+
     #[Pure] public function __construct()
     {
         $this->victories = new ArrayCollection();
         $this->defeats = new ArrayCollection();
         $this->matchesHosting = new ArrayCollection();
         $this->matchesReceiving = new ArrayCollection();
+        $this->trophies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,5 +238,35 @@ class Team
         $count = count($this->matchesHosting) + count($this->matchesReceiving);
 
         return ($taken / $count) / 2;
+    }
+
+    /**
+     * @return Collection|Trophy[]
+     */
+    public function getTrophies(): Collection
+    {
+        return $this->trophies;
+    }
+
+    public function addTrophy(Trophy $trophy): self
+    {
+        if (!$this->trophies->contains($trophy)) {
+            $this->trophies[] = $trophy;
+            $trophy->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrophy(Trophy $trophy): self
+    {
+        if ($this->trophies->removeElement($trophy)) {
+            // set the owning side to null (unless already changed)
+            if ($trophy->getTeam() === $this) {
+                $trophy->setTeam(null);
+            }
+        }
+
+        return $this;
     }
 }

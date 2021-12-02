@@ -28,6 +28,11 @@
                         <a class="dropdown-item" href="{{ path('tournament_create') }}">Créer un tournoi</a>
                     {% endif %}
                     <a class="dropdown-item" href="{{ path('tournament_index') }}">Liste des tournois</a>
+                    <div class="dropdown-divider"></div>
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="dropdown-item" href="{{ path('trophy_create') }}">Décerner un trophée</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{{ path('trophy_gallery') }}">Galerie des trophées</a>
                 </div>
             </li>
         </ul>
