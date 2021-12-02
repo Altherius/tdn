@@ -27,6 +27,10 @@ class FootballMatchRepository extends ServiceEntityRepository
         $qb
             ->orWhere('m.hostingTeam = :team')
             ->orWhere('m.receivingTeam = :team')
+            ->join('m.hostingTeam', 'mh')
+            ->join('m.receivingTeam', 'mr')
+            ->addSelect('mr')
+            ->addSelect('mh')
             ->setParameter('team', $team)
         ;
 

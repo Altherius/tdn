@@ -29,7 +29,7 @@ class TeamController extends AbstractController
     #[Route('/stats', name: 'team_stats')]
     public function stats(EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
     {
-        $teams = $manager->getRepository(Team::class)->findAll();
+        $teams = $manager->getRepository(Team::class)->findWithMatches();
         $stats = [];
         foreach ($teams as $team) {
             $stats[$team->getName()] = [
@@ -127,7 +127,7 @@ class TeamController extends AbstractController
     #[Route('/team/{id}', name: 'team_view', requirements: [
         'id' => '\d+'
     ])]
-    public function view(Team $team, Request $request, EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
+    public function view(Team $team, EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
     {
         $matches = $manager->getRepository(FootballMatch::class)->findWithTeam($team);
 

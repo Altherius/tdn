@@ -19,6 +19,19 @@ class TeamRepository extends ServiceEntityRepository
         parent::__construct($registry, Team::class);
     }
 
+    public function findWithMatches()
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb
+            ->join('t.matchesHosting', 'mh')
+            ->join('t.matchesReceiving', 'mr')
+            ->addSelect('mh')
+            ->addSelect('mr')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findRankings()
     {
         $qb = $this->createQueryBuilder('t');
