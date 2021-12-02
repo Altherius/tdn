@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Galerie des récompenses
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Galerie des récompenses</h1>
+    <hr>
+
+    <div class="row">
+        {% for award in awards %}
+            <div class="card col-12 col-md-6 col-lg-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-medal" style="color: goldenrod"></i>
+                        {{ award.name }}
+                    </h5>
+                    <hr>
+                    <h6 class="card-subtitle">
+                        <i class="fas fa-futbol"></i>
+                        {{ award.player }} - {{ award.tournament }}
+                    </h6>
+
+                    <p><i class="fas fa-clock"></i> Décerné le {{ award.givenAt|date('d/m/Y') }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+

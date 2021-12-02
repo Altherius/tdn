@@ -50,10 +50,16 @@ class Tournament
      */
     private $trophies;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Award::class, mappedBy="tournament")
+     */
+    private $awards;
+
     public function __construct()
     {
         $this->footballMatches = new ArrayCollection();
         $this->trophies = new ArrayCollection();
+        $this->awards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +174,36 @@ class Tournament
             // set the owning side to null (unless already changed)
             if ($trophy->getTournament() === $this) {
                 $trophy->setTournament(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Award[]
+     */
+    public function getAwards(): Collection
+    {
+        return $this->awards;
+    }
+
+    public function addAward(Award $award): self
+    {
+        if (!$this->awards->contains($award)) {
+            $this->awards[] = $award;
+            $award->setTournament($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAward(Award $award): self
+    {
+        if ($this->awards->removeElement($award)) {
+            // set the owning side to null (unless already changed)
+            if ($award->getTournament() === $this) {
+                $award->setTournament(null);
             }
         }
 

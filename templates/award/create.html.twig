@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Créer une récompense
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Créer une récompense</h1>
+    <hr>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-outline-primary">Décerner la récompense</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
