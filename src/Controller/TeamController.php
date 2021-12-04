@@ -154,7 +154,7 @@ class TeamController extends AbstractController
             }
         }
         $eloHistory = array_reverse($eloHistory);
-        $eloHistory = array_merge([$team->getRating()], $eloHistory);
+        $eloHistory = array_merge($eloHistory, [$team->getRating()]);
         $labels = [];
         $i = 1;
         while ($i < count($eloHistory)) {
