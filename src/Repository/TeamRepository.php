@@ -23,8 +23,29 @@ class TeamRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('t');
 
-        $qb->orderBy('t.rating', 'desc');
+        $qb
+            ->leftJoin('t.winnedTournaments', 'w')
+            ->leftJoin('t.finalistTournaments', 'f')
+            ->leftJoin('t.finalPhasesTournaments', 'fp')
+            ->addSelect('w')
+            ->addSelect('f')
+            ->addSelect('fp')
+            ->orderBy('t.rating', 'desc');
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findWithStats()
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb
+            ->leftJoin('t.matchesHosting', 'h')
+            ->leftJoin('t.matchesReceiving', 'r')
+            ->addSelect('h')
+            ->addSelect('r');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

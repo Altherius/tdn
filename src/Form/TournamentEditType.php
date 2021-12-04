@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Team;
+use App\Entity\Tournament;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class TournamentEditType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('startedAt', DateType::class, [
+                'label' => 'Date de début'
+            ])
+            ->add('endedAt', DateType::class, [
+                'label' => 'Date de fin'
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Nom du tournoi'
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description du tournoi',
+                'required' => false
+            ])
+            ->add('startedAt', DateType::class, [
+                'label' => 'Date de début'
+            ])
+            ->add('winner', EntityType::class, [
+                'class' => Team::class,
+                'choice_label' => 'name',
+                'label' => 'Vainqueur du tournoi',
+                'required' => false,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.name', 'ASC');
+                },
+            ])
+            ->add('finalist', EntityType::class, [
+                'class' => Team::class,
+                'choice_label' => 'name',
+                'label' => 'Finaliste du tournoi',
+                'required' => false,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.name', 'ASC');
+                },
+            ])
+            ->add('finalPhasesTeams', EntityType::class, [
+                'class' => Team::class,
+                'choice_label' => 'name',
+                'label' => 'Équipes en phases finales',
+                'multiple' => true,
+                'required' => false,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.name', 'ASC');
+                },
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Tournament::class,
+        ]);
+    }
+}

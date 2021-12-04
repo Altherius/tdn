@@ -29,7 +29,7 @@ class TeamController extends AbstractController
     #[Route('/stats', name: 'team_stats')]
     public function stats(EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
     {
-        $teams = $manager->getRepository(Team::class)->findAll();
+        $teams = $manager->getRepository(Team::class)->findWithStats();
         $stats = [];
         foreach ($teams as $team) {
             $stats[$team->getName()] = [

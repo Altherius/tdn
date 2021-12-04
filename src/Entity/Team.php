@@ -77,6 +77,21 @@ class Team
      */
     private $players;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Tournament::class, mappedBy="winner")
+     */
+    private $winnedTournaments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Tournament::class, mappedBy="finalist")
+     */
+    private $finalistTournaments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tournament::class, mappedBy="finalPhasesTeams")
+     */
+    private $finalPhasesTournaments;
+
     #[Pure] public function __construct()
     {
         $this->victories = new ArrayCollection();
@@ -85,6 +100,9 @@ class Team
         $this->matchesReceiving = new ArrayCollection();
         $this->trophies = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->winnedTournaments = new ArrayCollection();
+        $this->finalistTournaments = new ArrayCollection();
+        $this->finalPhasesTournaments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -301,6 +319,93 @@ class Team
             if ($player->getTeam() === $this) {
                 $player->setTeam(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tournament[]
+     */
+    public function getWinnedTournaments(): Collection
+    {
+        return $this->winnedTournaments;
+    }
+
+    public function addWinnedTournament(Tournament $winnedTournament): self
+    {
+        if (!$this->winnedTournaments->contains($winnedTournament)) {
+            $this->winnedTournaments[] = $winnedTournament;
+            $winnedTournament->setWinner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWinnedTournament(Tournament $winnedTournament): self
+    {
+        if ($this->winnedTournaments->removeElement($winnedTournament)) {
+            // set the owning side to null (unless already changed)
+            if ($winnedTournament->getWinner() === $this) {
+                $winnedTournament->setWinner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tournament[]
+     */
+    public function getFinalistTournaments(): Collection
+    {
+        return $this->finalistTournaments;
+    }
+
+    public function addFinalistTournament(Tournament $finalistTournament): self
+    {
+        if (!$this->finalistTournaments->contains($finalistTournament)) {
+            $this->finalistTournaments[] = $finalistTournament;
+            $finalistTournament->setFinalist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFinalistTournament(Tournament $finalistTournament): self
+    {
+        if ($this->finalistTournaments->removeElement($finalistTournament)) {
+            // set the owning side to null (unless already changed)
+            if ($finalistTournament->getFinalist() === $this) {
+                $finalistTournament->setFinalist(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tournament[]
+     */
+    public function getFinalPhasesTournaments(): Collection
+    {
+        return $this->finalPhasesTournaments;
+    }
+
+    public function addFinalPhasesTournament(Tournament $finalPhasesTournament): self
+    {
+        if (!$this->finalPhasesTournaments->contains($finalPhasesTournament)) {
+            $this->finalPhasesTournaments[] = $finalPhasesTournament;
+            $finalPhasesTournament->addFinalPhasesTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFinalPhasesTournament(Tournament $finalPhasesTournament): self
+    {
+        if ($this->finalPhasesTournaments->removeElement($finalPhasesTournament)) {
+            $finalPhasesTournament->removeFinalPhasesTeam($this);
         }
 
         return $this;

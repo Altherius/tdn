@@ -19,32 +19,21 @@ class TournamentRepository extends ServiceEntityRepository
         parent::__construct($registry, Tournament::class);
     }
 
-    // /**
-    //  * @return Tournament[] Returns an array of Tournament objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findWithMatches(int $id)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('t');
 
-    /*
-    public function findOneBySomeField($value): ?Tournament
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $qb
+            ->join('t.footballMatches', 'm')
+            ->join('m.hostingTeam', 'ht')
+            ->join('m.receivingTeam', 'rt')
+            ->addSelect('m')
+            ->addSelect('ht')
+            ->addSelect('rt')
+            ->where('t.id = :id')
+            ->setParameter('id', $id)
         ;
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
-    */
 }

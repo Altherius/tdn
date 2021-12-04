@@ -28,6 +28,15 @@
                     <td>
                         <img src="https://www.countryflagicons.com/FLAT/16/{{ team.countryCode }}.png" alt="{{ team.countryCode }}">
                         <a href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
+                        {% for tournament in team.winnedTournaments %}
+                            <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
+                        {% endfor %}
+                        {% for tournament in team.finalistTournaments %}
+                            <i class="fas fa-star fa-sm" style="color: silver" title="{{ tournament }}" ></i>
+                        {% endfor %}
+                        {% for tournament in team.finalPhasesTournaments %}
+                            <i class="fas fa-star fa-xs" style="color: #cd7f32" title="{{ tournament }}" ></i>
+                        {% endfor %}
                     </td>
                     <td>{{ team.rating }}</td>
                 </tr>

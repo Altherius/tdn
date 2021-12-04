@@ -3,6 +3,7 @@
 {% block body %}
     <h1 class="text-center">
         {{ tournament.name }}
+        <a href="{{ path('tournament_edit', {'id': tournament.id }) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
     </h1>
     <hr>
 

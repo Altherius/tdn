@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\FootballMatch;
 use App\Entity\Tournament;
+use App\Form\TournamentEditType;
 use App\Form\TournamentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -26,8 +27,9 @@ class TournamentController extends AbstractController
     #[Route('/tournament/{id}', name: 'tournament_view', requirements: [
         "id" => "\d+"
     ])]
-    public function view(Tournament $tournament, EntityManagerInterface $manager): Response
+    public function view(int $id, EntityManagerInterface $manager): Response
     {
+        $tournament = $manager->getRepository(Tournament::class)->findWithMatches($id);
         $matches = $manager->getRepository(FootballMatch::class)->findBy([
             'tournament' => $tournament
         ], ['id' => 'desc']);
@@ -37,6 +39,7 @@ class TournamentController extends AbstractController
             'matches' => $matches
         ]);
     }
+
 
     #[Route('/tournament/create', name: 'tournament_create')]
     #[IsGranted('ROLE_USER')]
@@ -56,6 +59,29 @@ class TournamentController extends AbstractController
 
         return $this->render('tournament/create.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/tournament/edit/{id}', name: 'tournament_edit', requirements: [
+        "id" => "\d+"
+    ])]
+    public function edit(Tournament $tournament, Request $request, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(TournamentEditType::class, $tournament);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->flush();
+
+            $this->addFlash('success', "Le tournoi \"" . $tournament->getName() . "\" a bien été édité.");
+            return $this->redirectToRoute('tournament_view', [
+                'id' => $tournament->getId()
+            ]);
+        }
+
+        return $this->render('tournament/edit.html.twig', [
+            'form' => $form->createView(),
+            'tournament' => $tournament
         ]);
     }
 }

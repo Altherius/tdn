@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Éditer un tournoi - {{ tournament.name }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Éditer {{ tournament.name }}</h1>
+    <hr>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-outline-primary">Éditer le tournoi</button>
+    {{ form_end(form) }}
+{% endblock %}

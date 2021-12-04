@@ -15,10 +15,16 @@ class TournamentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('startedAt', DateType::class)
-            ->add('endedAt', DateType::class)
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('startedAt', DateType::class, [
+                'label' => 'Date de début'
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Nom du tournoi'
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description du tournoi',
+                'required' => false
+            ])
         ;
     }
 

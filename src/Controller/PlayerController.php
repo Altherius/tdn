@@ -34,7 +34,6 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/player', name: 'player_list')]
-    #[IsGranted('ROLE_USER')]
     public function list(EntityManagerInterface $manager): Response
     {
         $players = $manager->getRepository(Player::class)->findAll();

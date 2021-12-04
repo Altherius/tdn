@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\TournamentRepository;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=TournamentRepository::class)
@@ -23,12 +24,12 @@ class Tournament
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTime $startedAt;
+    private ?DateTimeInterface $startedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?DateTime $endedAt;
+    private ?DateTimeInterface $endedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -48,18 +49,34 @@ class Tournament
     /**
      * @ORM\OneToMany(targetEntity=Trophy::class, mappedBy="tournament", orphanRemoval=true)
      */
-    private $trophies;
+    private Collection $trophies;
 
     /**
      * @ORM\OneToMany(targetEntity=Award::class, mappedBy="tournament")
      */
-    private $awards;
+    private Collection $awards;
 
-    public function __construct()
+    /**
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="winnedTournaments")
+     */
+    private Team $winner;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="finalistTournaments")
+     */
+    private Team $finalist;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Team::class, inversedBy="finalPhasesTournaments")
+     */
+    private Collection $finalPhasesTeams;
+
+    #[Pure] public function __construct()
     {
         $this->footballMatches = new ArrayCollection();
         $this->trophies = new ArrayCollection();
         $this->awards = new ArrayCollection();
+        $this->finalPhasesTeams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,24 +84,24 @@ class Tournament
         return $this->id;
     }
 
-    public function getStartedAt(): ?\DateTimeInterface
+    public function getStartedAt(): ?DateTimeInterface
     {
         return $this->startedAt;
     }
 
-    public function setStartedAt(\DateTimeInterface $startedAt): self
+    public function setStartedAt(DateTimeInterface $startedAt): self
     {
         $this->startedAt = $startedAt;
 
         return $this;
     }
 
-    public function getEndedAt(): ?\DateTimeInterface
+    public function getEndedAt(): ?DateTimeInterface
     {
         return $this->endedAt;
     }
 
-    public function setEndedAt(?\DateTimeInterface $endedAt): self
+    public function setEndedAt(?DateTimeInterface $endedAt): self
     {
         $this->endedAt = $endedAt;
 
@@ -116,7 +133,7 @@ class Tournament
     }
 
     /**
-     * @return Collection|FootballMatch[]
+     * @return Collection<FootballMatch>
      */
     public function getFootballMatches(): Collection
     {
@@ -151,7 +168,7 @@ class Tournament
     }
 
     /**
-     * @return Collection|Trophy[]
+     * @return Collection<Trophy>
      */
     public function getTrophies(): Collection
     {
@@ -181,7 +198,7 @@ class Tournament
     }
 
     /**
-     * @return Collection|Award[]
+     * @return Collection<Award>
      */
     public function getAwards(): Collection
     {
@@ -206,6 +223,54 @@ class Tournament
                 $award->setTournament(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWinner(): ?Team
+    {
+        return $this->winner;
+    }
+
+    public function setWinner(?Team $winner): self
+    {
+        $this->winner = $winner;
+
+        return $this;
+    }
+
+    public function getFinalist(): ?Team
+    {
+        return $this->finalist;
+    }
+
+    public function setFinalist(?Team $finalist): self
+    {
+        $this->finalist = $finalist;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<Team>
+     */
+    public function getFinalPhasesTeams(): Collection
+    {
+        return $this->finalPhasesTeams;
+    }
+
+    public function addFinalPhasesTeam(Team $finalPhasesTeam): self
+    {
+        if (!$this->finalPhasesTeams->contains($finalPhasesTeam)) {
+            $this->finalPhasesTeams[] = $finalPhasesTeam;
+        }
+
+        return $this;
+    }
+
+    public function removeFinalPhasesTeam(Team $finalPhasesTeam): self
+    {
+        $this->finalPhasesTeams->removeElement($finalPhasesTeam);
 
         return $this;
     }
