@@ -153,8 +153,8 @@ class TeamController extends AbstractController
                 break;
             }
         }
-        $eloHistoryArray[] = $team->getRating();
         $eloHistory = array_reverse($eloHistory);
+        $eloHistory = array_merge([$team->getRating()], $eloHistory);
         $labels = [];
         $i = 1;
         while ($i < count($eloHistory)) {
