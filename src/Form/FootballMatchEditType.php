@@ -54,7 +54,8 @@ class FootballMatchEditType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
-                'label' => 'Vainqueur'
+                'label' => 'Vainqueur',
+                'required' => false
             ])
             ->add('loser', EntityType::class, [
                 'class' => Team::class,
@@ -62,7 +63,8 @@ class FootballMatchEditType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
-                'label' => 'Perdant'
+                'label' => 'Perdant',
+                'required' => false
             ])
         ;
     }
