@@ -35,47 +35,49 @@
                     <div class="card-body">
                         <h4 class="text-center">{{ team1.name }}</h4>
                         <div class="text-center">
-                            <div class="btn btn-light">
-                                <h5 class="fw-bold">
-                                    {{ team1.rating }}
-                                    {% if eloDiff < 0 %}
-                                        <span class="text-danger">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="fw-bold">
+                                        {{ team1.rating }}
+                                        {% if eloDiff < 0 %}
+                                            <span class="text-danger">
                                             ({{ eloDiff }})
                                         </span>
-                                    {% else %}
-                                        <span class="text-success">
+                                        {% else %}
+                                            <span class="text-success">
                                             (+{{ eloDiff }})
                                         </span>
-                                    {% endif %}
-                                    ({{ team1Position }}<sup>{{ team1Position == 1 ? 'er' : 'ème' }}</sup>)
-                                </h5>
-                                <p class="lead">
-                                    Chances de victoire : {{ winProbability }}%
-                                </p>
-                                <p>En cas de victoire :
-                                    {% if eloDiffWin > 0 %}
-                                        <span class="text-success">+{{ eloDiffWin }}</span>
-                                    {% else %}
-                                        <span class="text-danger">{{ eloDiffWin }}</span>
-                                    {% endif %}
-                                    ({{ team1PositionWin }}<sup>{{ team1PositionWin == 1 ? 'er' : 'ème' }}</sup>)
-                                </p>
-                                <p>En cas de nul :
-                                    {% if eloDiffDraw > 0 %}
-                                        <span class="text-success">+{{ eloDiffDraw }}</span>
-                                    {% else %}
-                                        <span class="text-danger">{{ eloDiffDraw }}</span>
-                                    {% endif %}
-                                    ({{ team1PositionDraw }}<sup>{{ team1PositionDraw == 1 ? 'er' : 'ème' }}</sup>)
-                                </p>
-                                <p>En cas de défaite :
-                                    {% if eloDiffLose > 0 %}
-                                        <span class="text-success">+{{ eloDiffLose }}</span>
-                                    {% else %}
-                                        <span class="text-danger">{{ eloDiffLose }}</span>
-                                    {% endif %}
-                                    ({{ team1PositionLose }}<sup>{{ team1PositionLose == 1 ? 'er' : 'ème' }}</sup>)
-                                </p>
+                                        {% endif %}
+                                        ({{ team1Position }}<sup>{{ team1Position == 1 ? 'er' : 'ème' }}</sup>)
+                                    </h5>
+                                    <p class="lead">
+                                        Chances de victoire : {{ winProbability }}%
+                                    </p>
+                                    <p>En cas de victoire :
+                                        {% if eloDiffWin > 0 %}
+                                            <span class="text-success">+{{ eloDiffWin }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ eloDiffWin }}</span>
+                                        {% endif %}
+                                        ({{ team1PositionWin }}<sup>{{ team1PositionWin == 1 ? 'er' : 'ème' }}</sup>)
+                                    </p>
+                                    <p>En cas de nul :
+                                        {% if eloDiffDraw > 0 %}
+                                            <span class="text-success">+{{ eloDiffDraw }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ eloDiffDraw }}</span>
+                                        {% endif %}
+                                        ({{ team1PositionDraw }}<sup>{{ team1PositionDraw == 1 ? 'er' : 'ème' }}</sup>)
+                                    </p>
+                                    <p>En cas de défaite :
+                                        {% if eloDiffLose > 0 %}
+                                            <span class="text-success">+{{ eloDiffLose }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ eloDiffLose }}</span>
+                                        {% endif %}
+                                        ({{ team1PositionLose }}<sup>{{ team1PositionLose == 1 ? 'er' : 'ème' }}</sup>)
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,46 +89,48 @@
                     <div class="card-body">
                         <h4 class="text-center">{{ team2.name }}</h4>
                         <div class="text-center">
-                            <div class="btn btn-light">
-                                <h5 class="fw-bold">{{ team2.rating }}
-                                    {% if eloDiff < 0 %}
-                                        <span class="text-success">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="fw-bold">{{ team2.rating }}
+                                        {% if eloDiff < 0 %}
+                                            <span class="text-success">
                                             (+{{ -eloDiff }})
                                         </span>
-                                    {% else %}
-                                        <span class="text-danger">
+                                        {% else %}
+                                            <span class="text-danger">
                                             ({{ -eloDiff }})
                                         </span>
-                                    {% endif %}
-                                    ({{ team2Position }}<sup>{{ team2Position == 1 ? 'er' : 'ème' }}</sup>)
-                                </h5>
-                                <p class="lead">
-                                    Chances de victoire : {{ 100 - winProbability }}%
-                                </p>
-                                <p>En cas de victoire :
-                                    {% if eloDiffLose < 0 %}
-                                        <span class="text-success">+{{ -eloDiffLose }}</span>
-                                    {% else %}
-                                        <span class="text-danger">{{ -eloDiffLose }}</span>
-                                    {% endif %}
-                                    ({{ team2PositionWin }}<sup>{{ team2PositionWin == 1 ? 'er' : 'ème' }}</sup>)
-                                </p>
-                                <p>En cas de nul :
-                                    {% if eloDiffDraw < 0 %}
-                                        <span class="text-success">+{{ -eloDiffDraw }}</span>
-                                    {% else %}
-                                        <span class="text-danger">{{ -eloDiffDraw }}</span>
-                                    {% endif %}
-                                    ({{ team2PositionDraw }}<sup>{{ team2PositionDraw == 1 ? 'er' : 'ème' }}</sup>)
-                                </p>
-                                <p>En cas de défaite :
-                                    {% if eloDiffWin < 0 %}
-                                        <span class="text-success">+{{ -eloDiffWin }}</span>
-                                    {% else %}
-                                        <span class="text-danger">{{ -eloDiffWin }}</span>
-                                    {% endif %}
-                                    ({{ team2PositionLose }}<sup>{{ team2PositionLose == 1 ? 'er' : 'ème' }}</sup>)
-                                </p>
+                                        {% endif %}
+                                        ({{ team2Position }}<sup>{{ team2Position == 1 ? 'er' : 'ème' }}</sup>)
+                                    </h5>
+                                    <p class="lead">
+                                        Chances de victoire : {{ 100 - winProbability }}%
+                                    </p>
+                                    <p>En cas de victoire :
+                                        {% if eloDiffLose < 0 %}
+                                            <span class="text-success">+{{ -eloDiffLose }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ -eloDiffLose }}</span>
+                                        {% endif %}
+                                        ({{ team2PositionWin }}<sup>{{ team2PositionWin == 1 ? 'er' : 'ème' }}</sup>)
+                                    </p>
+                                    <p>En cas de nul :
+                                        {% if eloDiffDraw < 0 %}
+                                            <span class="text-success">+{{ -eloDiffDraw }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ -eloDiffDraw }}</span>
+                                        {% endif %}
+                                        ({{ team2PositionDraw }}<sup>{{ team2PositionDraw == 1 ? 'er' : 'ème' }}</sup>)
+                                    </p>
+                                    <p>En cas de défaite :
+                                        {% if eloDiffWin < 0 %}
+                                            <span class="text-success">+{{ -eloDiffWin }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ -eloDiffWin }}</span>
+                                        {% endif %}
+                                        ({{ team2PositionLose }}<sup>{{ team2PositionLose == 1 ? 'er' : 'ème' }}</sup>)
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -158,6 +158,17 @@ class TeamController extends AbstractController
                 $team2PositionDraw = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffDraw);
                 $team2PositionLose = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffWin) - 1;
 
+                if ($team1->getRating() > $team2->getRating() &&
+                    $team1->getRating() + $eloDiffLose < $team2->getRating() - $eloDiffLose) {
+                    $team1PositionLose--;
+                    $team2PositionWin++;
+                }
+                if ($team1->getRating() < $team2->getRating() &&
+                    $team1->getRating() + $eloDiffWin < $team2->getRating() - $eloDiffWin) {
+                    $team1PositionWin++;
+                    $team2PositionLose--;
+                }
+
                 if ($eloDiffDraw > 0 ) {
                     $team1PositionDraw--;
                 }
