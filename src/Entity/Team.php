@@ -446,4 +446,13 @@ class Team
 
         return $this;
     }
+
+    public function hasPalmares(): bool
+    {
+        return !(
+            $this->winnedTournaments->isEmpty() &&
+            $this->finalistTournaments->isEmpty() &&
+            $this->finalPhasesTournaments->isEmpty()
+        );
+    }
 }
