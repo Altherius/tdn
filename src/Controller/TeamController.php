@@ -127,7 +127,7 @@ class TeamController extends AbstractController
     }
 
     #[Route('/team/matchup', name: 'team_matchup')]
-    public function matchup(Request $request, EntityManagerInterface $manager, EloCalculator $calculator): Response
+    public function matchup(Request $request, EntityManagerInterface $manager, EloCalculator $calculator, ChartBuilderInterface $chartBuilder): Response
     {
         $matchup = $request->query->get('matchup');
 
@@ -139,6 +139,65 @@ class TeamController extends AbstractController
                 $eloDiff = $team1->getRating() - $team2->getRating();
                 $matchesHistory = $manager->getRepository(FootballMatch::class)->findMatchup($team1, $team2);
                 $winProbability = round($calculator->getWinProbability($team1->getRating(), $team2->getRating()), 2);
+
+                $team1Wins = $team2Wins = $draws = 0;
+                $team1Goals = $team2Goals = 0;
+
+                foreach ($matchesHistory as $match) {
+                    if ($match->getWinner() === $team1) {
+                        $team1Wins++;
+                    } else if ($match->getWinner() === $team2) {
+                        $team2Wins++;
+                    } else {
+                        $draws++;
+                    }
+
+                    if ($match->getHostingTeam() === $team1) {
+                        $team1Goals += $match->getHostingTeamScore();
+                        $team2Goals += $match->getReceivingTeamScore();
+                    } else {
+                        $team2Goals += $match->getHostingTeamScore();
+                        $team1Goals += $match->getReceivingTeamScore();
+                    }
+                }
+
+                $chart = $chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
+                $chart->setData([
+                    'labels' => [
+                        $team1->getName(),
+                        'Nuls',
+                        $team2->getName()
+                    ],
+                    'datasets' => [
+                        [
+                            'label' => 'Statistiques',
+                            'data' => [$team1Wins, $draws, $team2Wins],
+                            'backgroundColor' => [
+                                $team1->getColor(),
+                                '#000000',
+                                $team2->getColor()
+                            ]
+                        ],
+                    ]
+                ]);
+
+                $goalsChart = $chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
+                $goalsChart->setData([
+                    'labels' => [
+                        $team1->getName(),
+                        $team2->getName()
+                    ],
+                    'datasets' => [
+                        [
+                            'label' => 'Buts marqués contre l\'équipe adverse',
+                            'data' => [$team1Goals, $team2Goals],
+                            'backgroundColor' => [
+                                $team1->getColor(),
+                                $team2->getColor()
+                            ]
+                        ],
+                    ]
+                ]);
             }
 
         }
@@ -153,7 +212,9 @@ class TeamController extends AbstractController
             'eloDiff' => $eloDiff ?? 0,
             'form' => $form->createView(),
             'winProbability' => $winProbability ?? 0.,
-            'matchesHistory' => $matchesHistory ?? []
+            'matchesHistory' => $matchesHistory ?? [],
+            'chart' => $chart ?? null,
+            'goalsChart' => $goalsChart ?? null
         ]);
     }
 

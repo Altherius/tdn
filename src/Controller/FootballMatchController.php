@@ -37,8 +37,10 @@ class FootballMatchController extends AbstractController
 
             if ($match->getReceivingTeamScore() > $match->getHostingTeamScore()) {
                 $match->setWinner($match->getReceivingTeam());
+                $match->setLoser($match->getHostingTeam());
             } else if ($match->getReceivingTeamScore() < $match->getHostingTeamScore()) {
                 $match->setWinner($match->getHostingTeam());
+                $match->setLoser($match->getReceivingTeam());
             }
 
             $result = EloCalculator::DRAW;

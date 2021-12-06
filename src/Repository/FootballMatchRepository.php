@@ -39,7 +39,10 @@ class FootballMatchRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findMatchup(Team $team1, Team $team2)
+    /**
+     * @return FootballMatch[]
+     */
+    public function findMatchup(Team $team1, Team $team2): array
     {
         $qb = $this->createQueryBuilder('m');
         $qb
