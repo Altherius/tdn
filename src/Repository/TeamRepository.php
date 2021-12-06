@@ -35,6 +35,19 @@ class TeamRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findPosition(int $rating): int
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb
+            ->select("COUNT('t.id') as position")
+            ->where("t.rating > :rating")
+            ->setParameter('rating', $rating)
+        ;
+
+        $result = $qb->getQuery()->getOneOrNullResult();
+        return 1 + $result['position'];
+    }
+
     public function findWithStats()
     {
         $qb = $this->createQueryBuilder('t');

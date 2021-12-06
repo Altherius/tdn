@@ -139,6 +139,28 @@ class TeamController extends AbstractController
                 $eloDiff = $team1->getRating() - $team2->getRating();
                 $matchesHistory = $manager->getRepository(FootballMatch::class)->findMatchup($team1, $team2);
                 $winProbability = round($calculator->getWinProbability($team1->getRating(), $team2->getRating()), 2);
+                $eloDiffWin = $calculator->getEloEvolution($team1->getRating(), $team2->getRating(), EloCalculator::WIN);
+                $eloDiffDraw = $calculator->getEloEvolution($team1->getRating(), $team2->getRating(), EloCalculator::DRAW);
+                $eloDiffLose = $calculator->getEloEvolution($team1->getRating(), $team2->getRating(), EloCalculator::LOSE);
+
+                $team1Position = $manager->getRepository(Team::class)->findPosition($team1->getRating());
+                $team2Position = $manager->getRepository(Team::class)->findPosition($team2->getRating());
+
+                $team1PositionWin = $manager->getRepository(Team::class)->findPosition($team1->getRating() + $eloDiffWin);
+                $team1PositionDraw = $manager->getRepository(Team::class)->findPosition($team1->getRating() + $eloDiffDraw);
+                $team1PositionLose = $manager->getRepository(Team::class)->findPosition($team1->getRating() + $eloDiffLose) - 1;
+
+                if ($eloDiffDraw < 0 ) {
+                    $team1PositionDraw--;
+                }
+
+                $team2PositionWin = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffLose);
+                $team2PositionDraw = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffDraw);
+                $team2PositionLose = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffWin) - 1;
+
+                if ($eloDiffDraw > 0 ) {
+                    $team1PositionDraw--;
+                }
 
                 $team1Wins = $team2Wins = $draws = 0;
                 $team1Goals = $team2Goals = 0;
@@ -208,13 +230,24 @@ class TeamController extends AbstractController
 
         return $this->render('team/matchup.html.twig', [
             'team1' => $team1 ?? null,
+            'team1Position' => $team1Position ?? 0,
+            'team1PositionWin' => $team1PositionWin ?? 0,
+            'team1PositionDraw' => $team1PositionDraw ?? 0,
+            'team1PositionLose' => $team1PositionLose ?? 0,
             'team2' => $team2 ?? null,
+            'team2Position' => $team2Position ?? 0,
+            'team2PositionWin' => $team2PositionWin ?? 0,
+            'team2PositionDraw' => $team2PositionDraw ?? 0,
+            'team2PositionLose' => $team2PositionLose ?? 0,
             'eloDiff' => $eloDiff ?? 0,
             'form' => $form->createView(),
             'winProbability' => $winProbability ?? 0.,
             'matchesHistory' => $matchesHistory ?? [],
             'chart' => $chart ?? null,
-            'goalsChart' => $goalsChart ?? null
+            'goalsChart' => $goalsChart ?? null,
+            'eloDiffWin' => $eloDiffWin ?? 0,
+            'eloDiffDraw' => $eloDiffDraw ?? 0,
+            'eloDiffLose' => $eloDiffLose ?? 0,
         ]);
     }
 
