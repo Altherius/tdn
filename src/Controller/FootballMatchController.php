@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FootballMatch;
 use App\Entity\Tournament;
 use App\Elo\EloCalculator;
+use App\Form\FootballMatchEditType;
 use App\Form\FootballMatchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -78,7 +79,7 @@ class FootballMatchController extends AbstractController
             $match->setTournament($tournament);
         }
 
-        $form = $this->createForm(FootballMatchType::class, $match);
+        $form = $this->createForm(FootballMatchEditType::class, $match);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -95,7 +96,8 @@ class FootballMatchController extends AbstractController
         }
 
         return $this->render('football_match/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'match' => $match
         ]);
     }
 }
