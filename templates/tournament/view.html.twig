@@ -34,7 +34,7 @@
         {% for match in matches %}
             <tr>
                 <td>
-                    <span class="{{ match.winner == match.hostingTeam  ? 'text-success fw-bold' : '' }}">{{ match.hostingTeam }}</span> -
+                    <span class="{{ match.winner == match.hostingTeam ? (match.penalties ? 'text-warning fw-bold' : 'text-success fw-bold') : '' }}">{{ match.hostingTeam }}</span> -
                     <span class="{{ match.winner == match.receivingTeam  ? 'text-success fw-bold' : '' }}">{{ match.receivingTeam }}</span>
 
                 </td>
