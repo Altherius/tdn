@@ -24,6 +24,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 path: /
+                always_remember_me: true
             logout:
                 path: app_logout
                 # where to redirect after logout
