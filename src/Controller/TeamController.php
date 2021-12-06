@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Elo\EloCalculator;
 use App\Entity\FootballMatch;
 use App\Entity\Team;
+use App\Form\MatchupType;
 use App\Form\TeamType;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Loggable\Entity\LogEntry;
@@ -121,6 +123,37 @@ class TeamController extends AbstractController
 
         return $this->render('team/create.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/team/matchup', name: 'team_matchup')]
+    public function matchup(Request $request, EntityManagerInterface $manager, EloCalculator $calculator): Response
+    {
+        $matchup = $request->query->get('matchup');
+
+        if ($matchup && ($id1 = $matchup['team1']) && ($id2 = $matchup['team2'])) {
+            $team1 = $manager->getRepository(Team::class)->find($id1);
+            $team2 = $manager->getRepository(Team::class)->find($id2);
+
+            if ($team1 && $team2) {
+                $eloDiff = $team1->getRating() - $team2->getRating();
+                $matchesHistory = $manager->getRepository(FootballMatch::class)->findMatchup($team1, $team2);
+                $winProbability = round($calculator->getWinProbability($team1->getRating(), $team2->getRating()), 2);
+            }
+
+        }
+
+        $form = $this->createForm(MatchupType::class);
+
+
+
+        return $this->render('team/matchup.html.twig', [
+            'team1' => $team1 ?? null,
+            'team2' => $team2 ?? null,
+            'eloDiff' => $eloDiff ?? 0,
+            'form' => $form->createView(),
+            'winProbability' => $winProbability ?? 0.,
+            'matchesHistory' => $matchesHistory ?? []
         ]);
     }
 

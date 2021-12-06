@@ -13,6 +13,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="{{ path('team_index') }}">Classement des équipes</a>
                     <a class="dropdown-item" href="{{ path('team_stats') }}">Statistiques des équipes</a>
+                    <a class="dropdown-item" href="{{ path('team_matchup') }}">Analyser un matchup</a>
                     {% if is_granted('ROLE_USER') %}
                         <a class="dropdown-item" href="{{ path('team_create') }}">Créer une équipe</a>
                     {% endif %}

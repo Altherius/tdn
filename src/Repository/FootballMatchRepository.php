@@ -39,6 +39,18 @@ class FootballMatchRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findMatchup(Team $team1, Team $team2)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->andWhere('m.hostingTeam IN (:matchup)')
+            ->andWhere('m.receivingTeam IN (:matchup)')
+            ->setParameter('matchup', [$team1, $team2])
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findByHostingScoredGoals()
     {
         $qb = $this->createQueryBuilder('m');

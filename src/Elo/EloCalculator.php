@@ -29,4 +29,13 @@ class EloCalculator
 
         return $k * ($result - $winProbability);
     }
+
+    public function getWinProbability(int $rating, int $opponentRating): float
+    {
+        $eloDiff = $rating - $opponentRating;
+        if ($eloDiff > 400) {
+            $eloDiff = 400;
+        }
+        return 100 * (1 / (1 + (10 ** (-$eloDiff / 400))));
+    }
 }
