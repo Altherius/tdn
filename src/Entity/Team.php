@@ -70,32 +70,32 @@ class Team
     /**
      * @ORM\OneToMany(targetEntity=Trophy::class, mappedBy="team", orphanRemoval=true)
      */
-    private $trophies;
+    private Collection $trophies;
 
     /**
      * @ORM\OneToMany(targetEntity=Player::class, mappedBy="team", orphanRemoval=true)
      */
-    private $players;
+    private Collection $players;
 
     /**
      * @ORM\OneToMany(targetEntity=Tournament::class, mappedBy="winner")
      */
-    private $winnedTournaments;
+    private Collection $winnedTournaments;
 
     /**
      * @ORM\OneToMany(targetEntity=Tournament::class, mappedBy="finalist")
      */
-    private $finalistTournaments;
+    private Collection $finalistTournaments;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tournament::class, mappedBy="finalPhasesTeams")
      */
-    private $finalPhasesTournaments;
+    private Collection $finalPhasesTournaments;
 
     /**
      * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="penaltiesWinner")
      */
-    private $matchesWonAtPenalties;
+    private Collection $matchesWonAtPenalties;
 
     #[Pure] public function __construct()
     {
@@ -240,7 +240,7 @@ class Team
         return $this->matchesReceiving;
     }
 
-    public function getScoredGoalsPerMatch(): float
+    #[Pure] public function getScoredGoalsPerMatch(): float
     {
         $scored = 0;
         foreach ($this->matchesReceiving as $match) {
@@ -255,7 +255,7 @@ class Team
         return ($scored / $count) / 2;
     }
 
-    public function getTakenGoalsPerMatch(): float
+    #[Pure] public function getTakenGoalsPerMatch(): float
     {
         $taken = 0;
         foreach ($this->matchesReceiving as $match) {
@@ -271,7 +271,7 @@ class Team
     }
 
     /**
-     * @return Collection|Trophy[]
+     * @return Collection<Trophy>
      */
     public function getTrophies(): Collection
     {
@@ -301,7 +301,7 @@ class Team
     }
 
     /**
-     * @return Collection|Player[]
+     * @return Collection<Trophy>
      */
     public function getPlayers(): Collection
     {
@@ -331,7 +331,7 @@ class Team
     }
 
     /**
-     * @return Collection|Tournament[]
+     * @return Collection<Tournament>
      */
     public function getWinnedTournaments(): Collection
     {
@@ -361,7 +361,7 @@ class Team
     }
 
     /**
-     * @return Collection|Tournament[]
+     * @return Collection<Tournament>
      */
     public function getFinalistTournaments(): Collection
     {
@@ -391,7 +391,7 @@ class Team
     }
 
     /**
-     * @return Collection|Tournament[]
+     * @return Collection<Tournament>
      */
     public function getFinalPhasesTournaments(): Collection
     {
@@ -418,7 +418,7 @@ class Team
     }
 
     /**
-     * @return Collection|FootballMatch[]
+     * @return Collection<FootballMatch>
      */
     public function getMatchesWonAtPenalties(): Collection
     {

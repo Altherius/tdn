@@ -18,9 +18,9 @@
                     {% endif %}
                     <div class="dropdown-divider"></div>
                     {% if is_granted('ROLE_USER') %}
-                        <a class="dropdown-item" href="{{ path('trophy_create') }}">Décerner un trophée</a>
+                        <a class="dropdown-item" href="{{ path('trophy_create') }}">Décerner une distinction</a>
                     {% endif %}
-                    <a class="dropdown-item" href="{{ path('trophy_gallery') }}">Galerie des trophées</a>
+                    <a class="dropdown-item" href="{{ path('trophy_gallery') }}">Galerie des distinctions</a>
                 </div>
             </li>
             <li class="nav-item dropdown">

@@ -20,11 +20,11 @@
     <hr>
 
     <div class="card-group">
-        {% for tournament in team.finalPhasesTournaments %}
+        {% for tournament in team.winnedTournaments %}
             <div class="card col-12 col-md-6 col-lg-4">
-                <div class="card-body" style="background-color: #ffe4c9">
+                <div class="card-body" style="background-color: #f9f2d6">
                     <h5>
-                        <i class="fas fa-trophy" style="color: #cd7f32"></i> Phases finales - {{ tournament }}
+                        <i class="fas fa-trophy" style="color: goldenrod"></i> Vainqueur - {{ tournament }}
                     </h5>
                 </div>
             </div>
@@ -40,11 +40,12 @@
             </div>
         {% endfor %}
 
-        {% for tournament in team.winnedTournaments %}
+
+        {% for tournament in team.finalPhasesTournaments %}
             <div class="card col-12 col-md-6 col-lg-4">
-                <div class="card-body" style="background-color: #f9f2d6">
+                <div class="card-body" style="background-color: #ffe4c9">
                     <h5>
-                        <i class="fas fa-trophy" style="color: goldenrod"></i> Vainqueur - {{ tournament }}
+                        <i class="fas fa-trophy" style="color: #cd7f32"></i> Phases finales - {{ tournament }}
                     </h5>
                 </div>
             </div>
