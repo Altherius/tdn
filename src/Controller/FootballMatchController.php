@@ -39,8 +39,6 @@ class FootballMatchController extends AbstractController
                 $match->setWinner($match->getReceivingTeam());
             } else if ($match->getReceivingTeamScore() < $match->getHostingTeamScore()) {
                 $match->setWinner($match->getHostingTeam());
-            } else {
-                $match->setPenalties(true);
             }
 
             $result = EloCalculator::DRAW;
@@ -81,7 +79,7 @@ class FootballMatchController extends AbstractController
             $match->setTournament($tournament);
         }
 
-        $form = $this->createForm(FootballMatchEditType::class, $match);
+        $form = $this->createForm(FootballMatchType::class, $match);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

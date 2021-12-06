@@ -63,9 +63,9 @@ class FootballMatch
     private ?Team $loser;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="matchesWonAtPenalties")
      */
-    private bool $penalties = false;
+    private ?Team $penaltiesWinner;
 
     public function getId(): ?int
     {
@@ -168,18 +168,6 @@ class FootballMatch
         return $this;
     }
 
-    public function getPenalties(): bool
-    {
-        return $this->penalties;
-    }
-
-    public function setPenalties(bool $penalties): self
-    {
-        $this->penalties = $penalties;
-
-        return $this;
-    }
-
     #[Pure] public function getHostingTeamResult(): float
     {
         if ($this->getWinner() === $this->getHostingTeam()) {
@@ -202,5 +190,17 @@ class FootballMatch
     {
         return $this->getHostingTeam() . ' (' . $this->getHostingTeam()?->getRating() . ') ' . $this->getHostingTeamScore() . '-' .
                $this->getReceivingTeamScore() . ' ' . $this->getReceivingTeam() . ' (' . $this->getReceivingTeam()?->getRating() . ') ';
+    }
+
+    public function getPenaltiesWinner(): ?Team
+    {
+        return $this->penaltiesWinner;
+    }
+
+    public function setPenaltiesWinner(?Team $penaltiesWinner): self
+    {
+        $this->penaltiesWinner = $penaltiesWinner;
+
+        return $this;
     }
 }

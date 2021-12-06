@@ -45,6 +45,15 @@ class FootballMatchType extends AbstractType
                 },
                 'label' => 'Équipe extérieur'
             ])
+            ->add('penaltiesWinner', EntityType::class, [
+                'class' => Team::class,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.name', 'ASC');
+                },
+                'label' => 'Vainqueur des tirs aux buts (si applicable)',
+                'required' => false
+            ])
             ->add('tournament', EntityType::class, [
                 'class' => Tournament::class,
                 'label' => 'Tournoi'

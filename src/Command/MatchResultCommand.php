@@ -43,11 +43,6 @@ class MatchResultCommand extends Command
                     $output->writeln("<comment>$match</comment> - Vainqueur : " . $match->getWinner());
                 }
             }
-
-            if ($match->getWinner() === null && $match->getLoser() === null && !$match->getPenalties()) {
-                $match->setPenalties(true);
-                $output->writeln("<comment>$match</comment> - Égalité");
-            }
         }
 
         $this->manager->flush();

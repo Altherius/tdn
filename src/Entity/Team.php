@@ -92,6 +92,11 @@ class Team
      */
     private $finalPhasesTournaments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="penaltiesWinner")
+     */
+    private $matchesWonAtPenalties;
+
     #[Pure] public function __construct()
     {
         $this->victories = new ArrayCollection();
@@ -103,6 +108,7 @@ class Team
         $this->winnedTournaments = new ArrayCollection();
         $this->finalistTournaments = new ArrayCollection();
         $this->finalPhasesTournaments = new ArrayCollection();
+        $this->matchesWonAtPenalties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -406,6 +412,36 @@ class Team
     {
         if ($this->finalPhasesTournaments->removeElement($finalPhasesTournament)) {
             $finalPhasesTournament->removeFinalPhasesTeam($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FootballMatch[]
+     */
+    public function getMatchesWonAtPenalties(): Collection
+    {
+        return $this->matchesWonAtPenalties;
+    }
+
+    public function addMatchesWonAtPenalty(FootballMatch $matchesWonAtPenalty): self
+    {
+        if (!$this->matchesWonAtPenalties->contains($matchesWonAtPenalty)) {
+            $this->matchesWonAtPenalties[] = $matchesWonAtPenalty;
+            $matchesWonAtPenalty->setPenaltiesWinner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatchesWonAtPenalty(FootballMatch $matchesWonAtPenalty): self
+    {
+        if ($this->matchesWonAtPenalties->removeElement($matchesWonAtPenalty)) {
+            // set the owning side to null (unless already changed)
+            if ($matchesWonAtPenalty->getPenaltiesWinner() === $this) {
+                $matchesWonAtPenalty->setPenaltiesWinner(null);
+            }
         }
 
         return $this;
