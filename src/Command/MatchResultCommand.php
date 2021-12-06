@@ -44,8 +44,9 @@ class MatchResultCommand extends Command
                 }
             }
 
-            if ($match->getWinner() === null && $match->getLoser() === null) {
+            if ($match->getWinner() === null && $match->getLoser() === null && !$match->getPenalties()) {
                 $match->setPenalties(true);
+                $output->writeln("<comment>$match</comment> - Égalité");
             }
         }
 
