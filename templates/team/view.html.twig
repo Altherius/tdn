@@ -69,7 +69,7 @@
         </thead>
         <tbody>
         {% for match in matches %}
-            <tr class="{{ match.winner == team ? "table-success" : match.penalties ? "table-warning" : "table-danger" }}">
+            <tr class="{{ match.penalties ? "table-warning" : match.winner == team ? "table-success" : "table-danger" }}">
                 <td>{{ match.hostingTeam }} - {{ match.receivingTeam }}</td>
                 <td>{{ match.tournament.name }}</td>
                 <td>{{ match.hostingTeamScore }} - {{ match.receivingTeamScore }}</td>
