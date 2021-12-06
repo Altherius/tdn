@@ -33,7 +33,11 @@
             <div class="col-12 col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="text-center">{{ team1.name }}</h4>
+                        <h4 class="text-center">
+                            <a class="text-decoration-none text-black" href="{{ path('team_view', {'id': team1.id}) }}">
+                                {{ team1.name }}
+                            </a>
+                        </h4>
                         <div class="text-center">
                             <div class="card">
                                 <div class="card-body">
@@ -87,7 +91,11 @@
             <div class="col-12 col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="text-center">{{ team2.name }}</h4>
+                        <h4 class="text-center">
+                            <a class="text-decoration-none text-black" href="{{ path('team_view', {'id': team2.id}) }}">
+                                {{ team2.name }}
+                            </a>
+                        </h4>
                         <div class="text-center">
                             <div class="card">
                                 <div class="card-body">
@@ -168,7 +176,10 @@
                     <tbody>
                     {% for match in matchesHistory %}
                         <tr>
-                            <td>{{ match.hostingTeam }} - {{ match.receivingTeam }}</td>
+                            <td>
+                                <a class="text-decoration-none text-black" href="{{ path('team_view', {'id': match.hostingTeam.id }) }}">{{ match.hostingTeam }}</a> -
+                                <a class="text-decoration-none text-black" href="{{ path('team_view', {'id': match.receivingTeam.id }) }}">{{ match.receivingTeam }}</a>
+                            </td>
                             <td>{{ match.tournament }}</td>
                             <td>
                                 {{ match.hostingTeamScore }} - {{ match.receivingTeamScore }}

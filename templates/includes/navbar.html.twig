@@ -1,63 +1,65 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand p-3" href="{{ path('team_index') }}">Tournoi des nations</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('team_index') }}">Tournoi des nations</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                    Équipes
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ path('team_index') }}">Classement des équipes</a>
-                    <a class="dropdown-item" href="{{ path('team_stats') }}">Statistiques des équipes</a>
-                    <a class="dropdown-item" href="{{ path('team_matchup') }}">Analyser un matchup</a>
-                    {% if is_granted('ROLE_USER') %}
-                        <a class="dropdown-item" href="{{ path('team_create') }}">Créer une équipe</a>
-                    {% endif %}
-                    <div class="dropdown-divider"></div>
-                    {% if is_granted('ROLE_USER') %}
-                        <a class="dropdown-item" href="{{ path('trophy_create') }}">Décerner une distinction</a>
-                    {% endif %}
-                    <a class="dropdown-item" href="{{ path('trophy_gallery') }}">Galerie des distinctions</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                    Joueurs
-                </a>
-                <div class="dropdown-menu">
-                    {% if is_granted('ROLE_USER') %}
-                        <a class="dropdown-item" href="{{ path('player_create') }}">Créer un joueur</a>
-                    {% endif %}
-                    <a class="dropdown-item" href="{{ path('player_list') }}">Liste des joueurs</a>
-                    <div class="dropdown-divider"></div>
-                    {% if is_granted('ROLE_USER') %}
-                        <a class="dropdown-item" href="{{ path('award_create') }}">Décerner une récompense</a>
-                    {% endif %}
-                    <a class="dropdown-item" href="{{ path('award_gallery') }}">Galerie des récompenses</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                    Tournois
-                </a>
-                <div class="dropdown-menu">
-                    {% if is_granted('ROLE_USER') %}
-                        <a class="dropdown-item" href="{{ path('tournament_create') }}">Créer un tournoi</a>
-                    {% endif %}
-                    <a class="dropdown-item" href="{{ path('tournament_index') }}">Liste des tournois</a>
-                </div>
-            </li>
-        </ul>
-        <span class="navbar-text me-2">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Équipes
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('team_index') }}">Classement des équipes</a>
+                        <a class="dropdown-item" href="{{ path('team_stats') }}">Statistiques des équipes</a>
+                        <a class="dropdown-item" href="{{ path('team_matchup') }}">Analyser un matchup</a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a class="dropdown-item" href="{{ path('team_create') }}">Créer une équipe</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        {% if is_granted('ROLE_USER') %}
+                            <a class="dropdown-item" href="{{ path('trophy_create') }}">Décerner une distinction</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ path('trophy_gallery') }}">Galerie des distinctions</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Joueurs
+                    </a>
+                    <div class="dropdown-menu">
+                        {% if is_granted('ROLE_USER') %}
+                            <a class="dropdown-item" href="{{ path('player_create') }}">Créer un joueur</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ path('player_list') }}">Liste des joueurs</a>
+                        <div class="dropdown-divider"></div>
+                        {% if is_granted('ROLE_USER') %}
+                            <a class="dropdown-item" href="{{ path('award_create') }}">Décerner une récompense</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ path('award_gallery') }}">Galerie des récompenses</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Tournois
+                    </a>
+                    <div class="dropdown-menu">
+                        {% if is_granted('ROLE_USER') %}
+                            <a class="dropdown-item" href="{{ path('tournament_create') }}">Créer un tournoi</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ path('tournament_index') }}">Liste des tournois</a>
+                    </div>
+                </li>
+            </ul>
+            <span class="navbar-text me-2">
             {% if app.user %}
                 Connecté en tant que {{ app.user.userIdentifier }} - <a href="{{ path('app_logout') }}">Déconnexion</a>
             {% else %}
                 <a href="{{ path('app_login') }}">Se connecter</a>
             {% endif %}
         </span>
+        </div>
     </div>
 </nav>
