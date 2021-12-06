@@ -40,7 +40,7 @@
                     </td>
                     <td>
                         <img src="https://www.countryflagicons.com/FLAT/16/{{ team.countryCode }}.png" alt="{{ team.countryCode }}">
-                        <a class="text-decoration-none" href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
+                        <a class="text-decoration-none text-black" href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
                         {% for tournament in team.winnedTournaments %}
                             <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
                         {% endfor %}
