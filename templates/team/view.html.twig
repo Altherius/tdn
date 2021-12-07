@@ -112,8 +112,13 @@
             <tr class="{{ match.winner == team ? "table-success" : match.loser == team ? "table-danger" : "table-warning" }}">
                 <td>
                     <a class="text-decoration-none text-black" href="{{ path('team_view', {'id': match.hostingTeam.id }) }}">{{ match.hostingTeam }}</a> -
-                    <a class="text-decoration-none text-black" href="{{ path('team_view', {'id': match.receivingTeam.id }) }}">{{ match.receivingTeam }}</a></td>
-                <td>{{ match.tournament.name }}</td>
+                    <a class="text-decoration-none text-black" href="{{ path('team_view', {'id': match.receivingTeam.id }) }}">{{ match.receivingTeam }}</a>
+                </td>
+                <td>
+                    <a class="text-decoration-none text-black" href="{{ path('tournament_view', {'id': match.tournament.id }) }}">
+                        {{ match.tournament }}
+                    </a>
+                </td>
                 <td>
                     {{ match.hostingTeamScore }} - {{ match.receivingTeamScore }}
                     {% if match.penaltiesWinner %}

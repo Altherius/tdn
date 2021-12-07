@@ -18,7 +18,7 @@
             {% for tournament in tournaments %}
                 <tr>
                     <td>
-                        <a href="{{ path('tournament_view', {'id': tournament.id}) }}">
+                        <a class="text-black text-decoration-none" href="{{ path('tournament_view', {'id': tournament.id}) }}">
                             {{ tournament.name }}
                         </a>
                     </td>

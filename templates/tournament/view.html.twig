@@ -44,7 +44,7 @@
                 <td>{{ match.description }}</td>
                 {% if is_granted('ROLE_USER') %}
                 <td>
-                    <a href="{{ path('match_edit', {'id': match.id}) }}">Éditer</a>
+                    <a class="text-decoration-none text-black" href="{{ path('match_edit', {'id': match.id}) }}">Éditer</a>
                 </td>
                 {% endif %}
             </tr>
