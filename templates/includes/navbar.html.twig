@@ -48,6 +48,7 @@
                     <div class="dropdown-menu">
                         {% if is_granted('ROLE_USER') %}
                             <a class="dropdown-item" href="{{ path('tournament_create') }}">Créer un tournoi</a>
+                            <a class="dropdown-item" href="{{ path('tournament_generate_roster') }}">Générer une composition de tournoi</a>
                         {% endif %}
                         <a class="dropdown-item" href="{{ path('tournament_index') }}">Liste des tournois</a>
                     </div>

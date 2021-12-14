@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\FootballMatch;
 use App\Entity\Tournament;
+use App\Form\GenerateRosterType;
 use App\Form\TournamentEditType;
 use App\Form\TournamentType;
+use App\Randomizer\Randomizer;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +40,71 @@ class TournamentController extends AbstractController
         return $this->render('tournament/view.html.twig', [
             'tournament' => $tournament,
             'matches' => $matches
+        ]);
+    }
+
+    #[Route('/tournament/generate-roster', name: 'tournament_generate_roster')]
+    public function generateTournamentRoster(EntityManagerInterface $manager, Request $request): Response
+    {
+        $form = $this->createForm(GenerateRosterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tickets = new ArrayCollection();
+            $teamsCount = 0;
+            foreach ($form->getData()['threeTicketsTeams'] as $team) {
+                $teamsCount++;
+                for ($i = 0 ; $i < 3 ; ++$i) {
+                    $tickets->add($team);
+                }
+            }
+            foreach ($form->getData()['twoTicketsTeams'] as $team) {
+                $teamsCount++;
+                for ($i = 0 ; $i < 2 ; ++$i) {
+                    $tickets->add($team);
+                }
+            }
+            foreach ($form->getData()['oneTicketTeams'] as $team) {
+                $teamsCount++;
+                $tickets->add($team);
+            }
+
+            $teams = [];
+            foreach ($form->getData()['qualifiedTeams'] as $team) {
+                $teamsCount++;
+                $teams[] = $team;
+            }
+
+            $tickets = new ArrayCollection(array_values($tickets->toArray()));
+            $ticketsCount = $tickets->count();
+            if ($form->getData()['teamsCount'] > $teamsCount) {
+                $this->addFlash('warning', sprintf("Vous avez voulu générer un tournoi avec %s équipes mais vous n'en avez saisi que %s", $form->getData()['teamsCount'], $teamsCount));
+            }
+
+            for ($i = 0 ; $i < ($form->getData()['teamsCount'] - count($form->getData()['qualifiedTeams'])) ; ++$i) {
+
+                $teamIndex = random_int(0, $ticketsCount - 1);
+                $team = $tickets->get($teamIndex);
+                $teams[] = $team;
+
+                do {
+                    $hasMore = $tickets->removeElement($team);
+                } while($hasMore);
+
+                $tickets = new ArrayCollection(array_values($tickets->toArray()));
+                $ticketsCount = $tickets->count();
+            }
+
+            usort($teams, static function($a, $b) {
+                return $a->getRating() < $b->getRating();
+            });
+
+            dd($teams);
+        }
+
+        return $this->render('tournament/generate_roster.html.twig', [
+            'form' => $form->createView(),
+            'teams' => $teams ?? null,
         ]);
     }
 

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Génération de roster de tournoi
+{% endblock %}
+
+{% block body %}
+        <h1 class="text-center">Générer un roster de tournoi</h1>
+        <hr>
+        {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-primary">Générer</button>
+        </div>
+
+        {{ form_end(form) }}
+
+        {% if teams is not empty %}
+            <h2>Équipes tirées au sort</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover"
+                       data-toggle="table"
+                       data-search="true"
+                       data-locale="fr-FR"
+                >
+                    <thead>
+                    <tr>
+                        <th>Classement</th>
+                        <th>Pays</th>
+                        <th>Classement</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for team in teams %}
+                        <tr
+                                {% if loop.index == 11 %}
+                                    style="border-top: 3px solid #198754"
+                                {% endif %}
+
+                                {% if loop.index == 21 %}
+                                    style="border-top: 3px solid #b9d87b"
+                                {% endif %}
+
+                                {% if loop.index == 31 %}
+                                    style="border-top: 3px solid #ffc107"
+                                {% endif %}
+                        >
+                            <td>{{ loop.index }}
+                            </td>
+                            <td>
+                                <img src="https://www.countryflagicons.com/FLAT/16/{{ team.countryCode }}.png" alt="{{ team.countryCode }}">
+                                <a class="text-decoration-none text-black" href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
+                                {% for tournament in team.winnedTournaments %}
+                                    <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
+                                {% endfor %}
+                                {% for tournament in team.finalistTournaments %}
+                                    <i class="fas fa-star fa-sm" style="color: silver" title="{{ tournament }}" ></i>
+                                {% endfor %}
+                                {% for tournament in team.finalPhasesTournaments %}
+                                    <i class="fas fa-star fa-xs" style="color: #cd7f32" title="{{ tournament }}" ></i>
+                                {% endfor %}
+                            </td>
+                            <td>{{ team.rating }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+{% endblock %}
+
+
+

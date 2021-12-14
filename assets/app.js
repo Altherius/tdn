@@ -14,7 +14,12 @@ import '@popperjs/core';
 import 'bootstrap';
 import 'bootstrap-table';
 import 'bootstrap-table/dist/bootstrap-table-locale-all';
+import 'select2';
 
 
 // start the Stimulus application
 import './bootstrap';
+
+$(document).ready(function() {
+    $('.select2').select2();
+});
