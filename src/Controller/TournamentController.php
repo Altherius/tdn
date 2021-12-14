@@ -98,8 +98,6 @@ class TournamentController extends AbstractController
             usort($teams, static function($a, $b) {
                 return $a->getRating() < $b->getRating();
             });
-
-            dd($teams);
         }
 
         return $this->render('tournament/generate_roster.html.twig', [
