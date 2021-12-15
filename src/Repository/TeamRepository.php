@@ -27,6 +27,8 @@ class TeamRepository extends ServiceEntityRepository
             ->leftJoin('t.winnedTournaments', 'w')
             ->leftJoin('t.finalistTournaments', 'f')
             ->leftJoin('t.finalPhasesTournaments', 'fp')
+            ->leftJoin('t.matchesReceiving', 'mr')
+            ->leftJoin('t.matchesHosting', 'mh')
             ->addSelect('w')
             ->addSelect('f')
             ->addSelect('fp')

@@ -13,12 +13,15 @@
                data-toggle="table"
                data-search="true"
                data-locale="fr-FR"
+               data-sortable="true"
+               data-sort-cflass="table-active"
         >
             <thead>
             <tr>
-                <th>Classement</th>
-                <th>Pays</th>
-                <th>Classement</th>
+                <th data-sortable="true">Classement</th>
+                <th data-sortable="false">Pays</th>
+                <th data-sortable="true">Classement</th>
+                <th data-sortable="true">Match joués</th>
             </tr>
             </thead>
             <tbody>
@@ -52,9 +55,20 @@
                         {% endfor %}
                     </td>
                     <td>{{ team.rating }}</td>
+                    <td>{{ team.matchesHosting|length + team.matchesReceiving|length }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function nameSort(a, b) {
+            console.log(a, b, a.localeCompare(b));
+            return a.localeCompare(b);
+        }
+    </script>
 {% endblock %}
