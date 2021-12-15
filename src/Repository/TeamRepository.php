@@ -32,6 +32,8 @@ class TeamRepository extends ServiceEntityRepository
             ->addSelect('w')
             ->addSelect('f')
             ->addSelect('fp')
+            ->addSelect('mr')
+            ->addSelect('mh')
             ->orderBy('t.rating', 'desc');
 
         return $qb->getQuery()->getResult();

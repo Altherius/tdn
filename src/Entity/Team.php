@@ -229,12 +229,34 @@ class Team
         return $this;
     }
 
+    public function getDraws(): Collection
+    {
+        $draws = new ArrayCollection();
+        foreach ($this->getMatchesHosting() as $match) {
+            if ($match->getWinner() === null) {
+                $draws->add($match);
+            }
+        }
+        foreach ($this->getMatchesReceiving() as $match) {
+            if ($match->getWinner() === null) {
+                $draws->add($match);
+            }
+        }
 
+        return $draws;
+    }
+
+    /**
+     * @return Collection<FootballMatch>
+     */
     public function getMatchesHosting(): Collection
     {
         return $this->matchesHosting;
     }
 
+    /**
+     * @return Collection<FootballMatch>
+     */
     public function getMatchesReceiving(): Collection
     {
         return $this->matchesReceiving;
