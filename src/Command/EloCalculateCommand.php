@@ -44,12 +44,16 @@ class EloCalculateCommand extends Command
         /** @var FootballMatch $match */
         foreach ($matches as $match) {
 
-            $eloDiff = $this->eloCalculator->getEloEvolution($match->getHostingTeam()?->getRating(), $match->getReceivingTeam()?->getRating(), $match->getHostingTeamResult());
-            $output->writeln("<comment>" . $match->toStringwithElo() . " : ($eloDiff|".-$eloDiff .")</comment>");
+            $eloDiff = $this->eloCalculator->getEloEvolutionWithGoals($match);
+            $goalDiff = $match->getGoalsDiff();
+            $output->writeln([
+                "<comment>" . $match->toStringwithElo() . " : (" . ($eloDiff > 0 ? "+" . $eloDiff : $eloDiff) . " | ". ($eloDiff < 0 ? "+" . -$eloDiff : -$eloDiff) .")</comment>",
+                "<comment>Base : " . $this->eloCalculator->getBaseEloEvolution($match) . " - Multiplicateur ($goalDiff but" . ($goalDiff > 1 ? "s" : "") . " d'écart) : " . $this->eloCalculator->getEloMultiplier($goalDiff) ."</comment>",
+                ""
+            ]);
 
             $match->getHostingTeam()?->addRating($eloDiff);
             $match->getReceivingTeam()?->addRating(-$eloDiff);
-
             $this->manager->flush();
         }
 

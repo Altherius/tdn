@@ -2,6 +2,8 @@
 
 namespace App\Elo;
 
+use App\Entity\FootballMatch;
+
 class EloCalculator
 {
     public const LOSE = 0;
@@ -28,6 +30,44 @@ class EloCalculator
         $winProbability = 1 / (1 + (10 ** (-$eloDiff / 400)));
 
         return $k * ($result - $winProbability);
+    }
+
+    public function getBaseEloEvolution(FootballMatch $match): float
+    {
+        return $this->getEloEvolution($match->getHostingTeam()?->getRating(), $match->getReceivingTeam()?->getRating(), $match->getHostingTeamResult());
+    }
+
+
+    public function getEloEvolutionWithGoals(FootballMatch $match): int
+    {
+        $baseEloEvolution = $this->getEloEvolution($match->getHostingTeam()?->getRating(), $match->getReceivingTeam()?->getRating(), $match->getHostingTeamResult());
+        $multiplier = $this->getEloMultiplier($match->getGoalsDiff());
+
+        return $baseEloEvolution * $multiplier;
+    }
+
+    public function getEloMultiplier(int $goalsDiff): float
+    {
+        $multiplier = 1.0;
+        switch ($goalsDiff) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                break;
+            case 4:
+            case 5:
+                $multiplier = 1.5;
+                break;
+            case 6:
+            case 7:
+                $multiplier = 1.75;
+                break;
+            default:
+                $multiplier = 1.75 + (ceil((0.5 * ($goalsDiff - 7))) * 0.125);
+        }
+
+        return $multiplier;
     }
 
     public function getWinProbability(int $rating, int $opponentRating): float

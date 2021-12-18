@@ -50,11 +50,7 @@ class FootballMatchController extends AbstractController
                 $result = EloCalculator::LOSE;
             }
 
-            $eloEvolution = $eloCalculator->getEloEvolution(
-                $match->getHostingTeam()?->getRating(),
-                $match->getReceivingTeam()?->getRating(),
-                $result
-            );
+            $eloEvolution = $eloCalculator->getEloEvolutionWithGoals($match);
 
             $match->getHostingTeam()?->addRating($eloEvolution);
             $match->getReceivingTeam()?->addRating(-$eloEvolution);
@@ -62,7 +58,7 @@ class FootballMatchController extends AbstractController
             $manager->persist($match);
             $manager->flush();
 
-            $this->addFlash('success', "Le match " . $match->getHostingTeam() . " - " . $match->getReceivingTeam() .  " a bien été créé. Les classements ELO des équipes
+            $this->addFlash('success', "Le match " . $match->getHostingTeam() . " - " . $match->getReceivingTeam() .  " a bien été créé. Les classements Elo des équipes
             ont été ajustés.");
         }
 

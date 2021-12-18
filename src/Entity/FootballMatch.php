@@ -181,6 +181,11 @@ class FootballMatch
         return EloCalculator::DRAW;
     }
 
+    #[Pure] public function getGoalsDiff(): int
+    {
+        return abs($this->getHostingTeamScore() - $this->getReceivingTeamScore());
+    }
+
     #[Pure] public function __toString(): string
     {
         return $this->getHostingTeam() . ' ' . $this->getHostingTeamScore() . '-' . $this->getReceivingTeamScore() . ' ' . $this->getReceivingTeam();
@@ -189,7 +194,7 @@ class FootballMatch
     public function toStringWithElo(): string
     {
         return $this->getHostingTeam() . ' (' . $this->getHostingTeam()?->getRating() . ') ' . $this->getHostingTeamScore() . '-' .
-               $this->getReceivingTeamScore() . ' ' . $this->getReceivingTeam() . ' (' . $this->getReceivingTeam()?->getRating() . ') ';
+               $this->getReceivingTeamScore() . ' ' . $this->getReceivingTeam() . ' (' . $this->getReceivingTeam()?->getRating() . ')';
     }
 
     public function getPenaltiesWinner(): ?Team
