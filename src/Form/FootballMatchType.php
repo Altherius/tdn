@@ -23,7 +23,7 @@ class FootballMatchType extends AbstractType
             ])
             ->add('hostingTeamScore', NumberType::class, [
                 'html5' => true,
-                'label' => 'Score'
+                'label' => 'Score',
             ])
             ->add('receivingTeamScore', NumberType::class, [
                 'html5' => true,
@@ -35,7 +35,11 @@ class FootballMatchType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
-                'label' => 'Équipe domicile'
+                'label' => 'Équipe domicile',
+                'attr' => [
+                    'class' => 'select2'
+                ],
+                'placeholder' => 'Sélectionnez une équipe',
             ])
             ->add('receivingTeam', EntityType::class, [
                 'class' => Team::class,
@@ -43,7 +47,11 @@ class FootballMatchType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
-                'label' => 'Équipe extérieur'
+                'label' => 'Équipe extérieur',
+                'attr' => [
+                    'class' => 'select2'
+                ],
+                'placeholder' => 'Sélectionnez une équipe',
             ])
             ->add('penaltiesWinner', EntityType::class, [
                 'class' => Team::class,

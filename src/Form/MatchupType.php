@@ -23,7 +23,10 @@ class MatchupType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
-                'required' => false
+                'attr' => [
+                    'class' => 'select2'
+                ],
+                'placeholder' => 'Sélectionnez une équipe',
             ])
             ->add('team2', EntityType::class, [
                 'class' => Team::class,
@@ -32,7 +35,10 @@ class MatchupType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
-                'required' => false
+                'attr' => [
+                    'class' => 'select2'
+                ],
+                'placeholder' => 'Sélectionnez une équipe',
             ])
         ;
     }
