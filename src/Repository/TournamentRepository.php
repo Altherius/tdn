@@ -24,9 +24,9 @@ class TournamentRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t');
 
         $qb
-            ->join('t.footballMatches', 'm')
-            ->join('m.hostingTeam', 'ht')
-            ->join('m.receivingTeam', 'rt')
+            ->leftJoin('t.footballMatches', 'm')
+            ->leftJoin('m.hostingTeam', 'ht')
+            ->leftJoin('m.receivingTeam', 'rt')
             ->addSelect('m')
             ->addSelect('ht')
             ->addSelect('rt')
