@@ -10,12 +10,10 @@ export default class extends Controller {
         document.addEventListener("turbo:before-cache", function() {
             $("select.select2").each(function() {
                 $(this).select2('destroy');
-                console.log('select2 destroyed');
             });
 
             $('table.bs-table').each(function() {
                 $(this).bootstrapTable('destroy');
-                console.log('table destroyed');
             });
         });
 
@@ -25,7 +23,7 @@ export default class extends Controller {
             sortable: true,
             searchAccentNeutralise: true,
             searchTimeOut: 200
-        })
+        });
     }
 }
 

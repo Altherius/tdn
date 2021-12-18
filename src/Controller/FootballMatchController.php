@@ -58,6 +58,10 @@ class FootballMatchController extends AbstractController
 
             $this->addFlash('success', "Le match " . $match->getHostingTeam() . " - " . $match->getReceivingTeam() .  " a bien été créé. Les classements Elo des équipes
             ont été ajustés.");
+
+            return $this->redirectToRoute('tournament_view', [
+                'id' => $match->getTournament()?->getId()
+            ]);
         }
 
         return $this->render('football_match/create.html.twig', [

@@ -55,12 +55,12 @@ class FootballMatch
     /**
      * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="victories")
      */
-    private ?Team $winner;
+    private ?Team $winner = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="defeats")
      */
-    private ?Team $loser;
+    private ?Team $loser = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="matchesWonAtPenalties")
