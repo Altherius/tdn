@@ -147,16 +147,32 @@ class TeamController extends AbstractController
                 $team2Position = $manager->getRepository(Team::class)->findPosition($team2->getRating());
 
                 $team1PositionWin = $manager->getRepository(Team::class)->findPosition($team1->getRating() + $eloDiffWin);
+                $team1PositionWin4Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffWin * 1.5));
+                $team1PositionWin6Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffWin * 1.75));
+                $team1PositionWin8Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffWin * 1.875));
+                $team1PositionWin10Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffWin * 2));
                 $team1PositionDraw = $manager->getRepository(Team::class)->findPosition($team1->getRating() + $eloDiffDraw);
                 $team1PositionLose = $manager->getRepository(Team::class)->findPosition($team1->getRating() + $eloDiffLose) - 1;
+                $team1PositionLose4Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffLose * 1.5)) - 1;
+                $team1PositionLose6Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffLose * 1.75)) - 1;
+                $team1PositionLose8Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffLose * 1.875)) - 1;
+                $team1PositionLose10Goals = $manager->getRepository(Team::class)->findPosition($team1->getRating() + ($eloDiffLose * 2)) - 1;
 
                 if ($eloDiffDraw < 0 ) {
                     $team1PositionDraw--;
                 }
 
                 $team2PositionWin = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffLose);
+                $team2PositionWin4Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffLose * 1.5));
+                $team2PositionWin6Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffLose * 1.75));
+                $team2PositionWin8Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffLose * 1.875));
+                $team2PositionWin10Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffLose * 2));
                 $team2PositionDraw = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffDraw);
                 $team2PositionLose = $manager->getRepository(Team::class)->findPosition($team2->getRating() - $eloDiffWin) - 1;
+                $team2PositionLose4Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffWin * 1.5)) - 1;
+                $team2PositionLose6Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffWin * 1.75)) - 1;
+                $team2PositionLose8Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffWin * 1.875)) - 1;
+                $team2PositionLose10Goals = $manager->getRepository(Team::class)->findPosition($team2->getRating() - ($eloDiffWin * 2)) - 1;
 
                 if ($team1->getRating() > $team2->getRating() &&
                     $team1->getRating() + $eloDiffLose < $team2->getRating() - $eloDiffLose) {
@@ -170,7 +186,7 @@ class TeamController extends AbstractController
                 }
 
                 if ($eloDiffDraw > 0 ) {
-                    $team1PositionDraw--;
+                    $team2PositionDraw--;
                 }
 
                 $team1Wins = $team2Wins = $draws = 0;
@@ -243,13 +259,29 @@ class TeamController extends AbstractController
             'team1' => $team1 ?? null,
             'team1Position' => $team1Position ?? 0,
             'team1PositionWin' => $team1PositionWin ?? 0,
+            'team1PositionWin4Goals' => $team1PositionWin4Goals ?? 0,
+            'team1PositionWin6Goals' => $team1PositionWin6Goals ?? 0,
+            'team1PositionWin8Goals' => $team1PositionWin8Goals ?? 0,
+            'team1PositionWin10Goals' => $team1PositionWin10Goals ?? 0,
             'team1PositionDraw' => $team1PositionDraw ?? 0,
             'team1PositionLose' => $team1PositionLose ?? 0,
+            'team1PositionLose4Goals' => $team1PositionLose4Goals ?? 0,
+            'team1PositionLose6Goals' => $team1PositionLose6Goals ?? 0,
+            'team1PositionLose8Goals' => $team1PositionLose8Goals ?? 0,
+            'team1PositionLose10Goals' => $team1PositionLose10Goals ?? 0,
             'team2' => $team2 ?? null,
             'team2Position' => $team2Position ?? 0,
             'team2PositionWin' => $team2PositionWin ?? 0,
+            'team2PositionWin4Goals' => $team2PositionWin4Goals ?? 0,
+            'team2PositionWin6Goals' => $team2PositionWin6Goals ?? 0,
+            'team2PositionWin8Goals' => $team2PositionWin8Goals ?? 0,
+            'team2PositionWin10Goals' => $team2PositionWin10Goals ?? 0,
             'team2PositionDraw' => $team2PositionDraw ?? 0,
             'team2PositionLose' => $team2PositionLose ?? 0,
+            'team2PositionLose4Goals' => $team2PositionLose4Goals ?? 0,
+            'team2PositionLose6Goals' => $team2PositionLose6Goals ?? 0,
+            'team2PositionLose8Goals' => $team2PositionLose8Goals ?? 0,
+            'team2PositionLose10Goals' => $team2PositionLose10Goals ?? 0,
             'eloDiff' => $eloDiff ?? 0,
             'form' => $form->createView(),
             'winProbability' => $winProbability ?? 0.,

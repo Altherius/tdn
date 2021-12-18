@@ -57,30 +57,150 @@
                                     <p class="lead">
                                         Chances de victoire : {{ winProbability }}%
                                     </p>
-                                    <p>En cas de victoire :
-                                        {% if eloDiffWin > 0 %}
-                                            <span class="text-success">+{{ eloDiffWin }}</span>
-                                        {% else %}
-                                            <span class="text-danger">{{ eloDiffWin }}</span>
-                                        {% endif %}
-                                        ({{ team1PositionWin }}<sup>{{ team1PositionWin == 1 ? 'er' : 'ème' }}</sup>)
-                                    </p>
-                                    <p>En cas de nul :
-                                        {% if eloDiffDraw > 0 %}
-                                            <span class="text-success">+{{ eloDiffDraw }}</span>
-                                        {% else %}
-                                            <span class="text-danger">{{ eloDiffDraw }}</span>
-                                        {% endif %}
-                                        ({{ team1PositionDraw }}<sup>{{ team1PositionDraw == 1 ? 'er' : 'ème' }}</sup>)
-                                    </p>
-                                    <p>En cas de défaite :
-                                        {% if eloDiffLose > 0 %}
-                                            <span class="text-success">+{{ eloDiffLose }}</span>
-                                        {% else %}
-                                            <span class="text-danger">{{ eloDiffLose }}</span>
-                                        {% endif %}
-                                        ({{ team1PositionLose }}<sup>{{ team1PositionLose == 1 ? 'er' : 'ème' }}</sup>)
-                                    </p>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Résultat</th>
+                                            <th>Modif elo</th>
+                                            <th>Nouveau rang</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Victoire (10+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffWin * 2)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffWin * 2)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team1PositionWin10Goals }}<sup>{{ team1PositionWin10Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire (8+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffWin * 1.875)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffWin * 1.875)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team1PositionWin8Goals }}<sup>{{ team1PositionWin8Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire (6+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffWin * 1.75)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffWin * 1.75)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team1PositionWin6Goals }}<sup>{{ team1PositionWin6Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire (4+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffWin * 1.5)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffWin * 1.5)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team1PositionWin4Goals }}<sup>{{ team1PositionWin4Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire</td>
+                                            <td>
+                                                {% if eloDiffWin > 0 %}
+                                                    <span class="text-success">+{{ eloDiffWin }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ eloDiffWin }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team1PositionWin }}<sup>{{ team1PositionWin == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Match nul</td>
+                                            <td>
+                                                {% if eloDiffDraw > 0 %}
+                                                    <span class="text-success">+{{ eloDiffDraw }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ eloDiffDraw }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team1PositionDraw }}<sup>{{ team1PositionDraw == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite</td>
+                                            <td>
+                                                {% if eloDiffLose > 0 %}
+                                                    <span class="text-success">+{{ eloDiffLose }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ eloDiffLose }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ team1PositionLose }}<sup>{{ team1PositionLose == 1 ? 'er' : 'ème' }}</sup></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (4+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffLose * 1.5)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffLose * 1.5)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ team1PositionLose4Goals }}<sup>{{ team1PositionLose4Goals == 1 ? 'er' : 'ème' }}</sup></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (6+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffLose * 1.75)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffLose * 1.75)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ team1PositionLose6Goals }}<sup>{{ team1PositionLose6Goals == 1 ? 'er' : 'ème' }}</sup></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (8+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffLose * 1.875)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffLose * 1.875)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ team1PositionLose8Goals }}<sup>{{ team1PositionLose8Goals == 1 ? 'er' : 'ème' }}</sup></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (10+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose > 0 %}
+                                                    <span class="text-success">+{{ (eloDiffLose * 2)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (eloDiffLose * 2)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ team1PositionLose10Goals }}<sup>{{ team1PositionLose10Goals == 1 ? 'er' : 'ème' }}</sup></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -114,30 +234,158 @@
                                     <p class="lead">
                                         Chances de victoire : {{ 100 - winProbability }}%
                                     </p>
-                                    <p>En cas de victoire :
-                                        {% if eloDiffLose < 0 %}
-                                            <span class="text-success">+{{ -eloDiffLose }}</span>
-                                        {% else %}
-                                            <span class="text-danger">{{ -eloDiffLose }}</span>
-                                        {% endif %}
-                                        ({{ team2PositionWin }}<sup>{{ team2PositionWin == 1 ? 'er' : 'ème' }}</sup>)
-                                    </p>
-                                    <p>En cas de nul :
-                                        {% if eloDiffDraw < 0 %}
-                                            <span class="text-success">+{{ -eloDiffDraw }}</span>
-                                        {% else %}
-                                            <span class="text-danger">{{ -eloDiffDraw }}</span>
-                                        {% endif %}
-                                        ({{ team2PositionDraw }}<sup>{{ team2PositionDraw == 1 ? 'er' : 'ème' }}</sup>)
-                                    </p>
-                                    <p>En cas de défaite :
-                                        {% if eloDiffWin < 0 %}
-                                            <span class="text-success">+{{ -eloDiffWin }}</span>
-                                        {% else %}
-                                            <span class="text-danger">{{ -eloDiffWin }}</span>
-                                        {% endif %}
-                                        ({{ team2PositionLose }}<sup>{{ team2PositionLose == 1 ? 'er' : 'ème' }}</sup>)
-                                    </p>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Résultat</th>
+                                            <th>Modif elo</th>
+                                            <th>Nouveau rang</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Victoire (10+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffLose * 2)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffLose * 2)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionWin10Goals }}<sup>{{ team2PositionWin10Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire (8+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffLose * 1.875)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffLose * 1.875)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionWin8Goals }}<sup>{{ team2PositionWin8Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire (6+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffLose * 1.75)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffLose * 1.75)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionWin6Goals }}<sup>{{ team2PositionWin6Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire (4+ buts)</td>
+                                            <td>
+                                                {% if eloDiffLose < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffLose * 1.5)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffLose * 1.5)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionWin4Goals }}<sup>{{ team2PositionWin4Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Victoire</td>
+                                            <td>
+                                                {% if eloDiffLose < 0 %}
+                                                    <span class="text-success">+{{ -eloDiffLose }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ -eloDiffLose }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionWin }}<sup>{{ team2PositionWin == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Match nul</td>
+                                            <td>
+                                                {% if eloDiffDraw < 0 %}
+                                                    <span class="text-success">+{{ -eloDiffDraw }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ -eloDiffDraw }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ team2PositionDraw }}<sup>{{ team2PositionDraw == 1 ? 'er' : 'ème' }}</sup></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite</td>
+                                            <td>
+                                                {% if eloDiffWin < 0 %}
+                                                    <span class="text-success">+{{ -eloDiffWin }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ -eloDiffWin }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionLose }}<sup>{{ team2PositionLose == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (4+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffWin * 1.5)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffWin * 1.5)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionLose4Goals }}<sup>{{ team2PositionLose4Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (6+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffWin * 1.75)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffWin * 1.75)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionLose6Goals }}<sup>{{ team2PositionLose6Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (8+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffWin * 1.875)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffWin * 1.875)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionLose8Goals }}<sup>{{ team2PositionLose8Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Défaite (10+ buts)</td>
+                                            <td>
+                                                {% if eloDiffWin < 0 %}
+                                                    <span class="text-success">+{{ (-eloDiffWin * 2)|number_format }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ (-eloDiffWin * 2)|number_format }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ team2PositionLose10Goals }}<sup>{{ team2PositionLose10Goals == 1 ? 'er' : 'ème' }}</sup>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

@@ -13,13 +13,13 @@ export default class extends Controller {
                 console.log('select2 destroyed');
             });
 
-            $('table.table').each(function() {
+            $('table.bs-table').each(function() {
                 $(this).bootstrapTable('destroy');
                 console.log('table destroyed');
             });
         });
 
-        $('table.table').bootstrapTable({
+        $('table.bs-table').bootstrapTable({
             search: true,
             locale: "fr-FR",
             sortable: true,
