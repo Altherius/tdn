@@ -43,6 +43,9 @@ class TournamentEditType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
+                'attr' => [
+                    'class' => 'select2'
+                ]
             ])
             ->add('finalist', EntityType::class, [
                 'class' => Team::class,
@@ -53,6 +56,9 @@ class TournamentEditType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
+                'attr' => [
+                    'class' => 'select2'
+                ]
             ])
             ->add('finalPhasesTeams', EntityType::class, [
                 'class' => Team::class,
@@ -64,6 +70,9 @@ class TournamentEditType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 },
+                'attr' => [
+                    'class' => 'select2'
+                ]
             ])
         ;
     }
