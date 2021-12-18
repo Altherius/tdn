@@ -7,7 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '@fortawesome/fontawesome-free/css/all.css';
-import './styles/app.css';
+import './styles/app.scss';
 
 import $ from 'jquery';
 import '@popperjs/core';
@@ -19,7 +19,3 @@ import 'select2';
 
 // start the Stimulus application
 import './bootstrap';
-
-$(document).ready(function() {
-    $('.select2').select2();
-});
