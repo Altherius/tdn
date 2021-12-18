@@ -22,10 +22,8 @@ class FootballMatchController extends AbstractController
     {
         $eloCalculator = new EloCalculator();
 
-
-
         $match = new FootballMatch();
-        if ($id = $request->query->has('tournament')) {
+        if ($id = $request->query->get('tournament')) {
             $tournament = $manager->getRepository(Tournament::class)->find($id);
             $match->setTournament($tournament);
         }
