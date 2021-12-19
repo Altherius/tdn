@@ -83,6 +83,9 @@ class TournamentController extends AbstractController
 
             for ($i = 0 ; $i < ($form->getData()['teamsCount'] - count($form->getData()['qualifiedTeams'])) ; ++$i) {
 
+                if ($ticketsCount < 1) {
+                    break;
+                }
                 $teamIndex = random_int(0, $ticketsCount - 1);
                 $team = $tickets->get($teamIndex);
                 $teams[] = $team;
@@ -100,8 +103,8 @@ class TournamentController extends AbstractController
             });
         }
 
-        return $this->render('tournament/generate_roster.html.twig', [
-            'form' => $form->createView(),
+        return $this->renderForm('tournament/generate_roster.html.twig', [
+            'form' => $form,
             'teams' => $teams ?? null,
         ]);
     }

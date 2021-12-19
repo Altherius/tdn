@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GenerateRosterType extends AbstractType
@@ -15,6 +16,7 @@ class GenerateRosterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setMethod(Request::METHOD_GET)
             ->add('teamsCount', IntegerType::class, [
                 'label' => 'Nombre de places',
                 'help' => 'En comptant les places réservées.',
