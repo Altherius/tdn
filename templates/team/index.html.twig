@@ -36,7 +36,7 @@
                     <td>{{ loop.index }}
                     </td>
                     <td>
-                        <img src="https://flagcdn.com/16x12/{{ team.countryCode|lower }}.png" width="16" height="12"  alt="{{ team.countryCode }}">
+                        <img src="https://flagcdn.com/w20/{{ team.countryCode|lower }}.png" width="16" height="12"  alt="{{ team.countryCode }}">
                         <a class="text-decoration-none text-black" href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
                         {% for tournament in team.winnedTournaments %}
                             <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
