@@ -32,23 +32,10 @@
                     </thead>
                     <tbody>
                     {% for team in teams %}
-                        <tr
-                                {% if loop.index == 11 %}
-                                    style="border-top: 3px solid #198754"
-                                {% endif %}
-
-                                {% if loop.index == 21 %}
-                                    style="border-top: 3px solid #b9d87b"
-                                {% endif %}
-
-                                {% if loop.index == 31 %}
-                                    style="border-top: 3px solid #ffc107"
-                                {% endif %}
-                        >
-                            <td>{{ loop.index }}
-                            </td>
+                        <tr>
+                            <td>{{ loop.index }}</td>
                             <td>
-                                <img src="https://www.countryflagicons.com/FLAT/16/{{ team.countryCode }}.png" alt="{{ team.countryCode }}">
+                                <img src="https://flagcdn.com/w20/{{ team.countryCode|lower }}.png" width="16" height="12"  alt="{{ team.countryCode }}">
                                 <a class="text-decoration-none text-black" href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
                                 {% for tournament in team.winnedTournaments %}
                                     <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
