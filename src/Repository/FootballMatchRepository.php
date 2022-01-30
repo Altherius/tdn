@@ -6,6 +6,7 @@ use App\Entity\FootballMatch;
 use App\Entity\Team;
 use App\Entity\Tournament;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -44,7 +45,11 @@ class FootballMatchRepository extends ServiceEntityRepository
             ->setParameter('tournament', $tournament)
         ;
 
-        return $qb->getQuery()->getOneOrNullResult();
+        try {
+            return $qb->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 
     public function findWithTeam(Team $team)
