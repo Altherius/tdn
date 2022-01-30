@@ -47,10 +47,11 @@ class TournamentEditType extends AbstractType
                     'class' => 'select2'
                 ]
             ])
-            ->add('finalist', EntityType::class, [
+            ->add('finalists', EntityType::class, [
                 'class' => Team::class,
                 'choice_label' => 'name',
-                'label' => 'Finaliste du tournoi',
+                'label' => 'Finalistes du tournoi',
+                'multiple' => true,
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('t')

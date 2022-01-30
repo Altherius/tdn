@@ -83,11 +83,6 @@ class Team
     private Collection $winnedTournaments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Tournament::class, mappedBy="finalist")
-     */
-    private Collection $finalistTournaments;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Tournament::class, mappedBy="finalPhasesTeams")
      */
     private Collection $finalPhasesTournaments;
@@ -96,6 +91,11 @@ class Team
      * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="penaltiesWinner")
      */
     private Collection $matchesWonAtPenalties;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tournament::class, mappedBy="finalists")
+     */
+    private Collection $finalistTournaments;
 
     #[Pure] public function __construct()
     {
@@ -385,36 +385,6 @@ class Team
     /**
      * @return Collection<Tournament>
      */
-    public function getFinalistTournaments(): Collection
-    {
-        return $this->finalistTournaments;
-    }
-
-    public function addFinalistTournament(Tournament $finalistTournament): self
-    {
-        if (!$this->finalistTournaments->contains($finalistTournament)) {
-            $this->finalistTournaments[] = $finalistTournament;
-            $finalistTournament->setFinalist($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFinalistTournament(Tournament $finalistTournament): self
-    {
-        if ($this->finalistTournaments->removeElement($finalistTournament)) {
-            // set the owning side to null (unless already changed)
-            if ($finalistTournament->getFinalist() === $this) {
-                $finalistTournament->setFinalist(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<Tournament>
-     */
     public function getFinalPhasesTournaments(): Collection
     {
         return $this->finalPhasesTournaments;
@@ -476,5 +446,32 @@ class Team
             $this->finalistTournaments->isEmpty() &&
             $this->finalPhasesTournaments->isEmpty()
         );
+    }
+
+    /**
+     * @return Collection<Tournament>
+     */
+    public function getFinalistTournaments(): Collection
+    {
+        return $this->finalistTournaments;
+    }
+
+    public function addFinalistTournament(Tournament $finalistTournament): self
+    {
+        if (!$this->finalistTournaments->contains($finalistTournament)) {
+            $this->finalistTournaments[] = $finalistTournament;
+            $finalistTournament->addFinalist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFinalistTournament(Tournament $finalistTournament): self
+    {
+        if ($this->finalistTournaments->removeElement($finalistTournament)) {
+            $finalistTournament->removeFinalist($this);
+        }
+
+        return $this;
     }
 }

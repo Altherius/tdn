@@ -62,14 +62,16 @@ class Tournament
     private Team $winner;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="finalistTournaments")
-     */
-    private Team $finalist;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Team::class, inversedBy="finalPhasesTournaments")
+     * @ORM\JoinTable(name="tournament_final_phases_teams")
      */
     private Collection $finalPhasesTeams;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Team::class, inversedBy="finalistTournaments")
+     * @ORM\JoinTable(name="tournament_finalists_teams")
+     */
+    private Collection $finalists;
 
     #[Pure] public function __construct()
     {
@@ -77,6 +79,7 @@ class Tournament
         $this->trophies = new ArrayCollection();
         $this->awards = new ArrayCollection();
         $this->finalPhasesTeams = new ArrayCollection();
+        $this->finalists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -239,18 +242,6 @@ class Tournament
         return $this;
     }
 
-    public function getFinalist(): ?Team
-    {
-        return $this->finalist;
-    }
-
-    public function setFinalist(?Team $finalist): self
-    {
-        $this->finalist = $finalist;
-
-        return $this;
-    }
-
     /**
      * @return Collection<Team>
      */
@@ -271,6 +262,30 @@ class Tournament
     public function removeFinalPhasesTeam(Team $finalPhasesTeam): self
     {
         $this->finalPhasesTeams->removeElement($finalPhasesTeam);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<Team>
+     */
+    public function getFinalists(): Collection
+    {
+        return $this->finalists;
+    }
+
+    public function addFinalist(Team $finalist): self
+    {
+        if (!$this->finalists->contains($finalist)) {
+            $this->finalists[] = $finalist;
+        }
+
+        return $this;
+    }
+
+    public function removeFinalist(Team $finalist): self
+    {
+        $this->finalists->removeElement($finalist);
 
         return $this;
     }
