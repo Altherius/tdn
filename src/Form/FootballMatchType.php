@@ -8,6 +8,7 @@ use App\Entity\Tournament;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -62,9 +63,26 @@ class FootballMatchType extends AbstractType
                 'label' => 'Vainqueur des tirs aux buts (si applicable)',
                 'required' => false
             ])
+            ->add('previousMatches', EntityType::class, [
+                'class' => FootballMatch::class,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('m')
+                        ->orderBy('m.id', 'DESC');
+                },
+                'label' => 'Matches précédents',
+                'required' => false,
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'select2'
+                ]
+            ])
             ->add('tournament', EntityType::class, [
                 'class' => Tournament::class,
                 'label' => 'Tournoi'
+            ])
+            ->add('finalPhases', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Phases finales'
             ])
         ;
     }

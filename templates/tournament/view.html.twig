@@ -7,6 +7,27 @@
     </h1>
     <hr>
 
+    {% if lastMatch is not null %}
+    <h2>Phases finales</h2>
+        <div class="wrapper">
+            <div class="item">
+                <div class="item-parent">
+                    <p>
+                        <strong>
+                            <img src="https://flagcdn.com/w40/{{ lastMatch.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ lastMatch.hostingTeam.countryCode }}">
+                            {{ lastMatch.hostingTeamScore }}
+                            -
+                            {{ lastMatch.receivingTeamScore }}
+                            <img src="https://flagcdn.com/w40/{{ lastMatch.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ lastMatch.receivingTeam.countryCode }}">
+                        </strong>
+                    </p>
+                </div>
+                {% include 'includes/tree-entry.html.twig' %}
+            </div>
+        </div>
+    {% endif %}
+
+
     <h2>Matchs</h2>
 
     {% if is_granted('ROLE_USER') %}

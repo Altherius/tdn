@@ -1,0 +1,36 @@
+{% if lastMatch.previousMatches is not empty %}
+    <div class="item-children">
+    {% for match in lastMatch.previousMatches %}
+        <div class="item-child">
+            <div class="item">
+
+
+                {% if match.previousMatches is not empty %}
+                    <div class="item-parent">
+                        <p>
+                            <strong>
+                                <img src="https://flagcdn.com/w40/{{ match.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.hostingTeam.countryCode }}">
+                                {{ match.hostingTeamScore }}
+                                -
+                                {{ match.receivingTeamScore }}
+                                <img src="https://flagcdn.com/w40/{{ match.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.receivingTeam.countryCode }}">
+                            </strong>
+                        </p>
+                    </div>
+                    {% include('includes/tree-entry.html.twig') with {'lastMatch': match} %}
+                {% else %}
+                    <p>
+                        <strong>
+                            <img src="https://flagcdn.com/w40/{{ match.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.hostingTeam.countryCode }}">
+                            {{ match.hostingTeamScore }}
+                            -
+                            {{ match.receivingTeamScore }}
+                            <img src="https://flagcdn.com/w40/{{ match.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.receivingTeam.countryCode }}">
+                        </strong>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Elo\EloCalculator;
 use App\Repository\FootballMatchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
@@ -66,6 +68,26 @@ class FootballMatch
      * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="matchesWonAtPenalties")
      */
     private ?Team $penaltiesWinner;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=FootballMatch::class, inversedBy="previousMatches")
+     */
+    private FootballMatch $nextMatch;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FootballMatch::class, mappedBy="nextMatch")
+     */
+    private Collection $previousMatches;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $finalPhases = false;
+
+    #[Pure] public function __construct()
+    {
+        $this->previousMatches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -205,6 +227,58 @@ class FootballMatch
     public function setPenaltiesWinner(?Team $penaltiesWinner): self
     {
         $this->penaltiesWinner = $penaltiesWinner;
+
+        return $this;
+    }
+
+    public function getNextMatch(): ?self
+    {
+        return $this->nextMatch;
+    }
+
+    public function setNextMatch(?self $nextMatch): self
+    {
+        $this->nextMatch = $nextMatch;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<FootballMatch>
+     */
+    public function getPreviousMatches(): Collection
+    {
+        return $this->previousMatches;
+    }
+
+    public function addPreviousMatch(self $previousMatch): self
+    {
+        if (!$this->previousMatches->contains($previousMatch)) {
+            $this->previousMatches[] = $previousMatch;
+            $previousMatch->setNextMatch($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreviousMatch(self $previousMatch): self
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->previousMatches->removeElement($previousMatch) && $previousMatch->getNextMatch() === $this) {
+            $previousMatch->setNextMatch(null);
+        }
+
+        return $this;
+    }
+
+    public function isFinalPhases(): ?bool
+    {
+        return $this->finalPhases;
+    }
+
+    public function setFinalPhases(bool $finalPhases): self
+    {
+        $this->finalPhases = $finalPhases;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\FootballMatch;
 use App\Entity\Team;
+use App\Entity\Tournament;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,6 +32,19 @@ class FootballMatchRepository extends ServiceEntityRepository
         ;
 
         return $qb->getQuery();
+    }
+
+    public function findTournamentLastMatch(Tournament $tournament)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->where('m.tournament = :tournament')
+            ->andWhere('m.finalPhases = 1')
+            ->andWhere('m.nextMatch IS NULL')
+            ->setParameter('tournament', $tournament)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function findWithTeam(Team $team)
