@@ -9,11 +9,13 @@
                     <div class="item-parent">
                         <p>
                             <strong>
-                                <img src="https://flagcdn.com/w40/{{ match.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.hostingTeam.countryCode }}">
+                                <img src="https://flagcdn.com/w40/{{ match.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.hostingTeam.countryCode }}"
+                                     title="{{ lastMatch.hostingTeam }}">
                                 {{ match.hostingTeamScore }}
                                 -
                                 {{ match.receivingTeamScore }}
-                                <img src="https://flagcdn.com/w40/{{ match.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.receivingTeam.countryCode }}">
+                                <img src="https://flagcdn.com/w40/{{ match.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.receivingTeam.countryCode }}"
+                                     title="{{ lastMatch.receivingTeam }}">
                             </strong>
                         </p>
                     </div>
@@ -21,11 +23,13 @@
                 {% else %}
                     <p>
                         <strong>
-                            <img src="https://flagcdn.com/w40/{{ match.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.hostingTeam.countryCode }}">
+                            <img src="https://flagcdn.com/w40/{{ match.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.hostingTeam.countryCode }}"
+                                 title="{{ lastMatch.hostingTeam }}">
                             {{ match.hostingTeamScore }}
                             -
                             {{ match.receivingTeamScore }}
-                            <img src="https://flagcdn.com/w40/{{ match.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.receivingTeam.countryCode }}">
+                            <img src="https://flagcdn.com/w40/{{ match.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.receivingTeam.countryCode }}"
+                                 title="{{ lastMatch.receivingTeam }}">
                         </strong>
                     </p>
                 {% endif %}

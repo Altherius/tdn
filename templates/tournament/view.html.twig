@@ -14,11 +14,13 @@
                 <div class="item-parent">
                     <p>
                         <strong>
-                            <img src="https://flagcdn.com/w40/{{ lastMatch.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ lastMatch.hostingTeam.countryCode }}">
+                            <img src="https://flagcdn.com/w40/{{ lastMatch.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ lastMatch.hostingTeam.countryCode }}"
+                                 title="{{ lastMatch.hostingTeam }}">
                             {{ lastMatch.hostingTeamScore }}
                             -
                             {{ lastMatch.receivingTeamScore }}
-                            <img src="https://flagcdn.com/w40/{{ lastMatch.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ lastMatch.receivingTeam.countryCode }}">
+                            <img src="https://flagcdn.com/w40/{{ lastMatch.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ lastMatch.receivingTeam.countryCode }}"
+                                 title="{{ lastMatch.receivingTeam }}">
                         </strong>
                     </p>
                 </div>
