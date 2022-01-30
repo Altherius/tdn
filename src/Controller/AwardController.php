@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Award;
+use App\Entity\Tournament;
 use App\Form\AwardType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,10 +35,10 @@ class AwardController extends AbstractController
     #[Route('/award', name: 'award_gallery')]
     public function gallery(EntityManagerInterface $manager): Response
     {
-        $awards = $manager->getRepository(Award::class)->findAll();
+        $tournaments = $manager->getRepository(Tournament::class)->findAll();
 
         return $this->render('award/list.html.twig', [
-            'awards' => $awards
+            'tournaments' => $tournaments
         ]);
     }
 }

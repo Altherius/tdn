@@ -8,25 +8,38 @@
     <h1 class="text-center">Galerie des récompenses</h1>
     <hr>
 
+    {% for tournament in tournaments %}
+        {% if tournament.awards is not empty %}
+        <h2 class="text-center">{{ tournament.name }}</h2>
+        {% endif %}
     <div class="row">
-        {% for award in awards %}
-            <div class="card col-12 col-md-6 col-lg-4">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fas fa-medal" style="color: goldenrod"></i>
-                        {{ award.name }}
-                    </h5>
-                    <hr>
-                    <h6 class="card-subtitle">
-                        <i class="fas fa-futbol"></i>
-                        {{ award.player }} - {{ award.tournament }}
-                    </h6>
+        {% for award in tournament.awards %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <p class="text-center">
+                                <img src="https://flagcdn.com/w20/{{ award.player.team.countryCode|lower }}.png" width="32" height="24"
+                                     alt="{{ award.player.team.countryCode }}"
+                                     class="d-inline-block"
+                                >
+                            </p>
+                            <i class="fas fa-medal" style="color: goldenrod"></i>
+                            {{ award.name }}
+                        </h5>
+                        <hr>
+                        <h6 class="card-subtitle">
+                            <i class="fas fa-futbol"></i>
+                            {{ award.player }} - {{ award.tournament }}
+                        </h6>
 
-                    <p><i class="fas fa-clock"></i> Décerné le {{ award.givenAt|date('d/m/Y') }}</p>
+                        <p><i class="fas fa-clock"></i> Décerné le {{ award.givenAt|date('d/m/Y') }}</p>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+    {% endfor %}
 {% endblock %}
 
 
