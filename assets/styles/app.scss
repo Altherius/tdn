@@ -6,6 +6,14 @@
 $side-margin: 50px;
 $vertical-margin: 10px;
 
+* {
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+body {
+  background-color: #eee;
+}
+
 .wrapper{
   display: flex;
   justify-content: center;
