@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Elo\EloCalculator;
 use App\Entity\FootballMatch;
 use App\Entity\Team;
+use App\Entity\Tournament;
 use App\Form\MatchupType;
 use App\Form\TeamType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -297,7 +298,7 @@ class TeamController extends AbstractController
     #[Route('/team/{id}', name: 'team_view', requirements: [
         'id' => '\d+'
     ])]
-    public function view(Team $team, Request $request, EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
+    public function view(Team $team, EntityManagerInterface $manager, ChartBuilderInterface $chartBuilder): Response
     {
         $matches = $manager->getRepository(FootballMatch::class)->findWithTeam($team);
 
@@ -305,7 +306,7 @@ class TeamController extends AbstractController
             return $match->getWinner() === $team;
         });
 
-        $draws = array_filter($matches, static function($match) use ($team) {
+        $draws = array_filter($matches, static function($match) {
             return $match->getWinner() === null;
         });
 
@@ -315,6 +316,8 @@ class TeamController extends AbstractController
 
         $eloHistory = [];
         $eloHistoryArray = $manager->getRepository(LogEntry::class)->getLogEntries($team);
+        $tournaments = $manager->getRepository(Tournament::class)->findAll();
+
         $i = 1;
         foreach ($eloHistoryArray as $elo) {
             $eloHistory[] = $elo->getData()['rating'];
@@ -407,7 +410,8 @@ class TeamController extends AbstractController
             'matches' => $matches,
             'chart' => $chart,
             'goalChart' => $goalChart,
-            'eloHistoryChart' => $eloHistoryChart
+            'eloHistoryChart' => $eloHistoryChart,
+            'tournaments' => $tournaments
         ]);
     }
 
