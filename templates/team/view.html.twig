@@ -19,7 +19,23 @@
     <h2>Parcours dans les tournois</h2>
     {% for tournament in tournaments %}
         {% if matches|filter(match => match.tournament == tournament) is not empty %}
-        <h3 class="text-center mb-5">{{ tournament }}</h3>
+        <h3 class="text-center mb-5">
+            {% if tournament in team.winnedTournaments %}
+                <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
+            {% elseif tournament in team.finalistTournaments %}
+                <i class="fas fa-star fa-sm" style="color: silver" title="{{ tournament }}" ></i>
+            {% elseif tournament in team.finalPhasesTournaments %}
+                <i class="fas fa-star fa-xs" style="color: #cd7f32" title="{{ tournament }}" ></i>
+            {% endif %}
+            {{ tournament }}
+            {% if tournament in team.winnedTournaments %}
+                <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
+            {% elseif tournament in team.finalistTournaments %}
+                <i class="fas fa-star fa-sm" style="color: silver" title="{{ tournament }}" ></i>
+            {% elseif tournament in team.finalPhasesTournaments %}
+                <i class="fas fa-star fa-xs" style="color: #cd7f32" title="{{ tournament }}" ></i>
+            {% endif %}
+        </h3>
         <ol class="steps">
             {% for match in matches|filter(match => match.tournament == tournament) %}
             <li class="step {{ match.winner == team ? 'win' : match.loser == team ? 'lose' : 'draw' }}" data-step="{{ loop.index }}">
