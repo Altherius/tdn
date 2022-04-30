@@ -34,7 +34,8 @@ class EloCalculator
 
     public function getBaseEloEvolution(FootballMatch $match): float
     {
-        return $this->getEloEvolution($match->getHostingTeam()?->getRating(), $match->getReceivingTeam()?->getRating(), $match->getHostingTeamResult());
+        $multiplier = $match->getTournament()?->getEloMultiplier() ?? 1.;
+        return floor($multiplier * $this->getEloEvolution($match->getHostingTeam()?->getRating(), $match->getReceivingTeam()?->getRating(), $match->getHostingTeamResult()));
     }
 
 

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 /**
  * @ORM\Entity(repositoryClass=TournamentRepository::class)
@@ -72,6 +73,12 @@ class Tournament
      * @ORM\JoinTable(name="tournament_finalists_teams")
      */
     private Collection $finalists;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    #[PositiveOrZero]
+    private float $eloMultiplier = 1.;
 
     #[Pure] public function __construct()
     {
@@ -286,6 +293,18 @@ class Tournament
     public function removeFinalist(Team $finalist): self
     {
         $this->finalists->removeElement($finalist);
+
+        return $this;
+    }
+
+    public function getEloMultiplier(): ?float
+    {
+        return $this->eloMultiplier;
+    }
+
+    public function setEloMultiplier(float $eloMultiplier): self
+    {
+        $this->eloMultiplier = $eloMultiplier;
 
         return $this;
     }
