@@ -26,9 +26,9 @@ class TournamentType extends AbstractType
                 'label' => 'Description du tournoi',
                 'required' => false
             ])
-            ->add('description', NumberType::class, [
+            ->add('eloMultiplier', NumberType::class, [
                 'label' => 'Multiplicateur Elo',
-                'scale' => 2
+                'scale' => 2,
             ])
         ;
     }

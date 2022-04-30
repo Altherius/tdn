@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,6 +31,10 @@ class TournamentEditType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description du tournoi',
                 'required' => false
+            ])
+            ->add('eloMultiplier', NumberType::class, [
+                'label' => 'Multiplicateur Elo',
+                'scale' => 2,
             ])
             ->add('startedAt', DateType::class, [
                 'label' => 'Date de début'
