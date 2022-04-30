@@ -36,7 +36,7 @@ class Team
      * @ORM\Column(type="integer")
      * @Gedmo\Versioned()
      */
-    private int $rating = 1200;
+    private int $rating = 1000;
 
     /**
      * @ORM\Column(type="string", length=255)
