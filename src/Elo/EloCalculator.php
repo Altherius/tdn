@@ -43,8 +43,9 @@ class EloCalculator
     {
         $baseEloEvolution = $this->getEloEvolution($match->getHostingTeam()?->getRating(), $match->getReceivingTeam()?->getRating(), $match->getHostingTeamResult());
         $multiplier = $this->getEloMultiplier($match->getGoalsDiff());
+        $tournamentMultiplier = $match->getTournament()?->getEloMultiplier() ?? 1.;
 
-        return $baseEloEvolution * $multiplier;
+        return $baseEloEvolution * $multiplier * $tournamentMultiplier;
     }
 
     public function getEloMultiplier(int $goalsDiff): float
