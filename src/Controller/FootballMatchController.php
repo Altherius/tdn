@@ -100,4 +100,9 @@ class FootballMatchController extends AbstractController
             'match' => $match
         ]);
     }
+
+    public function lastMatch(): Response
+    {
+        return new Response('Dernier match : ');
+    }
 }

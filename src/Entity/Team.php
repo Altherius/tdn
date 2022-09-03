@@ -246,6 +246,27 @@ class Team
         return $draws;
     }
 
+    public function getGoalDiff(): int
+    {
+        $goalsFor = 0;
+        $goalsAgainst = 0;
+
+        foreach ($this->getVictories() as $victory) {
+            $goalsFor += max($victory->getHostingTeamScore(), $victory->getReceivingTeamScore());
+            $goalsAgainst += min($victory->getHostingTeamScore(), $victory->getReceivingTeamScore());
+        }
+        foreach ($this->getDefeats() as $defeat) {
+            $goalsFor += min($defeat->getHostingTeamScore(), $defeat->getReceivingTeamScore());
+            $goalsAgainst += max($defeat->getHostingTeamScore(), $defeat->getReceivingTeamScore());
+        }
+        foreach ($this->getDraws() as $draw) {
+            $goalsFor += $draw->getHostingTeamScore();
+            $goalsAgainst += $draw->getHostingTeamScore();
+        }
+
+        return $goalsFor - $goalsAgainst;
+    }
+
     /**
      * @return Collection<FootballMatch>
      */
@@ -260,6 +281,24 @@ class Team
     public function getMatchesReceiving(): Collection
     {
         return $this->matchesReceiving;
+    }
+
+    public function getLastMatches(int $count = 5): Collection
+    {
+        $matches = new ArrayCollection(
+            array_merge($this->getMatchesHosting()->toArray(), $this->getMatchesReceiving()->toArray())
+        );
+
+        $matches = $matches->toArray();
+        usort($matches, static function(FootballMatch $a, FootballMatch $b) {
+            return $a->getId() < $b->getId();
+        });
+
+        /** @var array $matches */
+        $matches = array_slice($matches, 0, 5);
+        $matches = array_reverse($matches);
+
+        return new ArrayCollection($matches);
     }
 
     #[Pure] public function getScoredGoalsPerMatch(): float

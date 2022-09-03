@@ -14,8 +14,13 @@
             <tr>
                 <th data-sortable="true">Classement</th>
                 <th data-sortable="false">Pays</th>
-                <th data-sortable="true">Classement</th>
-                <th data-sortable="true">Match joués</th>
+                <th data-sortable="true">Elo</th>
+                <th data-sortable="false">J</th>
+                <th data-sortable="false">V</th>
+                <th data-sortable="false">N</th>
+                <th data-sortable="false">D</th>
+                <th data-sortable="false">DB</th>
+                <th data-sortable="false"></th>
             </tr>
             </thead>
             <tbody>
@@ -54,6 +59,21 @@
                     </td>
                     <td>{{ team.rating }}</td>
                     <td>{{ team.matchesHosting|length + team.matchesReceiving|length }}</td>
+                    <td>{{ team.victories|length }}</td>
+                    <td>{{ team.draws|length }}</td>
+                    <td>{{ team.defeats|length }}</td>
+                    <td>{{ team.goalDiff > 0 ? '+' : '' }}{{ team.goalDiff }}</td>
+                    <td>
+                        {% for match in team.lastMatches %}
+                            {% if team == match.winner %}
+                            <span class="green-dot"></span>
+                            {% elseif team == match.loser %}
+                            <span class="red-dot"></span>
+                            {% else %}
+                            <span class="yellow-dot"></span>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
