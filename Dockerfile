@@ -4,7 +4,7 @@
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG PHP_VERSION=8.1
+ARG PHP_VERSION=8.0
 ARG CADDY_VERSION=2
 
 # "php" stage
@@ -94,9 +94,9 @@ RUN composer create-project "${SKELETON} ${SYMFONY_VERSION}" . --stability=$STAB
 
 ###> recipes ###
 ###> doctrine/doctrine-bundle ###
-RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
-	docker-php-ext-install -j$(nproc) pdo_pgsql; \
-	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
+RUN apk add --no-cache --virtual .pgsql-deps mysql-dev; \
+	docker-php-ext-install -j$(nproc) pdo_mysql; \
+	apk add --no-cache --virtual .mysql-rundeps so:libpq.so.5; \
 	apk del .pgsql-deps
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
