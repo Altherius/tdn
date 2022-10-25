@@ -3,7 +3,50 @@
 {% block title %}Classement des pays{% endblock %}
 
 {% block body %}
+
     <h1 class="text-center">
+        Les derniers matchs
+    </h1>
+
+    {% if lastMatches|length > 0 %}
+    <div class="row">
+        {% for match in lastMatches %}
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-center">
+                        {{ match.tournament.name }}
+                    </p>
+                    <p class="text-center">
+                        <strong>
+                            <a href="{{ path('team_view', {'id': match.hostingTeam.id }) }}" style="text-decoration: none">
+                                <img src="https://flagcdn.com/w40/{{ match.hostingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.hostingTeam.countryCode }}"
+                                     title="{{ match.hostingTeam }}">
+                            </a>
+                            {{ match.hostingTeamScore }}
+                            -
+                            {{ match.receivingTeamScore }}
+                            <a href="{{ path('team_view', {'id': match.receivingTeam.id }) }}" style="text-decoration: none">
+                                <img src="https://flagcdn.com/w40/{{ match.receivingTeam.countryCode|lower }}.png" width="32" height="24"  alt="{{ match.receivingTeam.countryCode }}"
+                                         title="{{ match.receivingTeam }}">
+                            </a>
+                        </strong>
+                    </p>
+                    <p class="small text-center">
+                        {{ match.description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="alert alert-warning text-center">Aucun match joué</div>
+    {% endif %}
+
+
+
+    <h1 class="text-center mt-5">
         Classement des pays
     </h1>
     <hr>

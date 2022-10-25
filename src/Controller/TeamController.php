@@ -24,8 +24,11 @@ class TeamController extends AbstractController
     public function index(EntityManagerInterface $manager): Response
     {
         $teams = $manager->getRepository(Team::class)->findRankings();
+        $lastMatches = $manager->getRepository(FootballMatch::class)->findBy([], ['id' => 'desc'], 4);
+
         return $this->render('team/index.html.twig', [
-            'teams' => $teams
+            'teams' => $teams,
+            'lastMatches' => $lastMatches
         ]);
     }
 
