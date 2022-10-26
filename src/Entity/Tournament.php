@@ -60,7 +60,7 @@ class Tournament
     /**
      * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="winnedTournaments")
      */
-    private Team $winner;
+    private ?Team $winner = null;
 
     /**
      * @ORM\ManyToMany(targetEntity=Team::class, inversedBy="finalPhasesTournaments")

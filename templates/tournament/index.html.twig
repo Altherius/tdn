@@ -11,6 +11,15 @@
             <thead>
             <tr>
                 <th>Nom</th>
+                <th class="text-center">
+                    <i class="fas fa-star" style="color: goldenrod" title="Vainqueur" ></i>
+                </th>
+                <th class="text-center">
+                    <i class="fas fa-star" style="color: silver" title="Deuxième" ></i>
+                </th>
+                <th class="text-center">
+                    <i class="fas fa-star fa-xs" style="color: #cd7f32" title="Troisième" ></i>
+                </th>
                 <th>Date d'organisation</th>
             </tr>
             </thead>
@@ -21,6 +30,31 @@
                         <a class="text-black text-decoration-none" href="{{ path('tournament_view', {'id': tournament.id}) }}">
                             {{ tournament.name }}
                         </a>
+                    </td>
+                    <td class="text-center">
+                        {% if tournament.winner is not null %}
+                            <img src="https://flagcdn.com/w20/{{ tournament.winner.countryCode|lower }}.png" width="16" height="12"  alt="{{ tournament.winner.countryCode }}" title="{{ tournament.winner.name }}">
+                        {% else %}
+                            <b>--</b>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if tournament.finalists is not empty %}
+                            {% for finalist in tournament.finalists %}
+                                <img src="https://flagcdn.com/w20/{{ finalist.countryCode|lower }}.png" width="16" height="12"  alt="{{ finalist.countryCode }}" title="{{ finalist.name }}">
+                            {% endfor %}
+                        {% else %}
+                            <b>--</b>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if tournament.finalPhasesTeams is not empty %}
+                            {% for finalist in tournament.finalPhasesTeams %}
+                                <img src="https://flagcdn.com/w20/{{ finalist.countryCode|lower }}.png" width="16" height="12"  alt="{{ finalist.countryCode }}" title="{{ finalist.name }}">
+                            {% endfor %}
+                        {% else %}
+                            <b>--</b>
+                        {% endif %}
                     </td>
                     <td>
                         Du {{ tournament.startedAt|date('d/m/Y') }} au {{ tournament.endedAt|date('d/m/Y') }}
