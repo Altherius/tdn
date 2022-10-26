@@ -24,7 +24,8 @@ class TournamentType extends AbstractType
                 'label' => 'Nom du tournoi'
             ])
             ->add('name', CheckboxType::class, [
-                'label' => 'Tournoi majeur (donne des étoiles)'
+                'label' => 'Tournoi majeur (donne des étoiles)',
+                'required' => false
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description du tournoi',
