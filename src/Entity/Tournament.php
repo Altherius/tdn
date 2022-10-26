@@ -38,6 +38,11 @@ class Tournament
     private string $name;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $major = false;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description;

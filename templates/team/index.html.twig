@@ -91,13 +91,19 @@
                         <img src="https://flagcdn.com/w20/{{ team.countryCode|lower }}.png" width="16" height="12"  alt="{{ team.countryCode }}">
                         <a class="text-decoration-none text-black" href="{{ path('team_view', {"id": team.id}) }}">{{ team.name }}</a>
                         {% for tournament in team.winnedTournaments %}
-                            <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
+                            {% if tournament.major %}
+                                <i class="fas fa-star" style="color: goldenrod" title="{{ tournament }}" ></i>
+                            {% endif %}
                         {% endfor %}
                         {% for tournament in team.finalistTournaments %}
-                            <i class="fas fa-star fa-sm" style="color: silver" title="{{ tournament }}" ></i>
+                            {% if tournament.major %}
+                                <i class="fas fa-star fa-sm" style="color: silver" title="{{ tournament }}" ></i>
+                            {% endif %}
                         {% endfor %}
                         {% for tournament in team.finalPhasesTournaments %}
-                            <i class="fas fa-star fa-xs" style="color: #cd7f32" title="{{ tournament }}" ></i>
+                            {% if tournament.major %}
+                                <i class="fas fa-star fa-xs" style="color: #cd7f32" title="{{ tournament }}" ></i>
+                            {% endif %}
                         {% endfor %}
                     </td>
                     <td>{{ team.rating }}</td>

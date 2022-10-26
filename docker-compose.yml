@@ -64,8 +64,8 @@ services:
     environment:
       MYSQL_DB: ${MYSQL_DB:-app}
       # You should definitely change the password in production
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-ChangeMe}
-      MYSQL_USER: ${MYSQL_USER:-symfony}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-root}
+      MYSQL_USER: ${MYSQL_USER:-root}
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - db-data:/var/lib/mysql:rw
