@@ -29,7 +29,7 @@ class TournamentEditType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom du tournoi'
             ])
-            ->add('name', CheckboxType::class, [
+            ->add('major', CheckboxType::class, [
                 'label' => 'Tournoi majeur (donne des étoiles)'
             ])
             ->add('description', TextareaType::class, [
