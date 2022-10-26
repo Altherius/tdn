@@ -21,7 +21,7 @@ class TournamentController extends AbstractController
     #[Route('/tournament', name: 'tournament_index')]
     public function index(EntityManagerInterface $manager): Response
     {
-        $tournaments = $manager->getRepository(Tournament::class)->findAll();
+        $tournaments = $manager->getRepository(Tournament::class)->findBy([], ['id' => 'desc']);
         return $this->render('tournament/index.html.twig', [
             'tournaments' => $tournaments
         ]);

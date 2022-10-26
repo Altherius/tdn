@@ -32,6 +32,7 @@ class TournamentRepository extends ServiceEntityRepository
             ->addSelect('rt')
             ->where('t.id = :id')
             ->setParameter('id', $id)
+            ->orderBy('m.id', 'desc')
         ;
 
         return $qb->getQuery()->getOneOrNullResult();
