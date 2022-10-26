@@ -313,4 +313,15 @@ class Tournament
 
         return $this;
     }
+
+    public function isMajor(): bool
+    {
+        return $this->major;
+    }
+
+    public function setMajor(bool $major): Tournament
+    {
+        $this->major = $major;
+        return $this;
+    }
 }
