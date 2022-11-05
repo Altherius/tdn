@@ -1,4 +1,4 @@
-3<?php
+<?php
 
 namespace App\Entity;
 
