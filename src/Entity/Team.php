@@ -1,4 +1,4 @@
-<?php
+3<?php
 
 namespace App\Entity;
 
@@ -313,6 +313,10 @@ class Team
 
         $count = count($this->matchesHosting) + count($this->matchesReceiving);
 
+        if ($count === 0) {
+            return 0.;
+        }
+
         return ($scored / $count) / 2;
     }
 
@@ -327,6 +331,10 @@ class Team
         }
 
         $count = count($this->matchesHosting) + count($this->matchesReceiving);
+
+        if ($count === 0) {
+            return 0.;
+        }
 
         return ($taken / $count) / 2;
     }
