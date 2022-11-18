@@ -114,6 +114,8 @@ class FootballMatchController extends AbstractController
         $hostingTeam = $match->getHostingTeam();
         $receivingTeam = $match->getReceivingTeam();
 
+        $tournament = $match->getTournament();
+
         if ($hostingTeam === null || $receivingTeam === null) {
             return $this->redirectToRoute($match->getTournament());
         }
@@ -142,6 +144,8 @@ class FootballMatchController extends AbstractController
             $manager->flush();
         }
 
-        return $this->redirectToRoute($match->getTournament());
+        return $this->redirectToRoute('tournament_view', [
+            'id' => $tournament->getId()
+        ]);
     }
 }
