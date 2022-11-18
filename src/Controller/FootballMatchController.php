@@ -116,7 +116,7 @@ class FootballMatchController extends AbstractController
 
         $tournament = $match->getTournament();
 
-        if ($hostingTeam === null || $receivingTeam === null) {
+        if ($hostingTeam === null || $receivingTeam === null || $tournament === null) {
             return $this->redirectToRoute($match->getTournament());
         }
 
