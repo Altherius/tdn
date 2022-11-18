@@ -143,6 +143,7 @@ class FootballMatchController extends AbstractController
             $manager->remove($match);
 
             $manager->flush();
+            $manager->clear();
 
             $hostingTeamLog = $logRepo->getLogEntries($hostingTeam);
             $receivingTeamLog = $logRepo->getLogEntries($receivingTeam);
