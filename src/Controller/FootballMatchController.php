@@ -133,7 +133,7 @@ class FootballMatchController extends AbstractController
             $manager->remove($lastReceivingLog);
 
             $logRepo->revert($hostingTeam, $prevHostingLog->getVersion());
-            $logRepo->revert($hostingTeam, $prevReceivingLog->getVersion());
+            $logRepo->revert($receivingTeam, $prevReceivingLog->getVersion());
 
             $manager->persist($hostingTeam);
             $manager->persist($receivingTeam);
