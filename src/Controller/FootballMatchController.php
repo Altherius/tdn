@@ -126,9 +126,10 @@ class FootballMatchController extends AbstractController
         $receivingTeamLog = $logRepo->getLogEntries($receivingTeam);
 
         if (count($hostingTeamLog) > 1 && count($receivingTeamLog) > 1) {
+
             $lastHostingLog = $hostingTeamLog[0];
-            $prevHostingLog = $hostingTeamLog[1];
             $lastReceivingLog = $receivingTeamLog[0];
+            $prevHostingLog = $hostingTeamLog[1];
             $prevReceivingLog = $receivingTeamLog[1];
 
             $manager->remove($lastHostingLog);
@@ -142,6 +143,16 @@ class FootballMatchController extends AbstractController
             $manager->remove($match);
 
             $manager->flush();
+
+            $hostingTeamLog = $logRepo->getLogEntries($hostingTeam);
+            $receivingTeamLog = $logRepo->getLogEntries($receivingTeam);
+
+            $lastHostingLog = $hostingTeamLog[0];
+            $lastReceivingLog = $receivingTeamLog[0];
+
+            $manager->remove($lastHostingLog);
+            $manager->remove($lastReceivingLog);
+
         }
 
         return $this->redirectToRoute('tournament_view', [
