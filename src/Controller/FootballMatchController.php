@@ -156,6 +156,8 @@ class FootballMatchController extends AbstractController
 
         }
 
+        $this->addFlash('success', 'Le match a bien été supprimé');
+
         return $this->redirectToRoute('tournament_view', [
             'id' => $tournament->getId()
         ]);
