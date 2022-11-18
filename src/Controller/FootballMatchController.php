@@ -8,6 +8,7 @@ use App\Elo\EloCalculator;
 use App\Form\FootballMatchEditType;
 use App\Form\FootballMatchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Loggable\Entity\LogEntry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,5 +105,43 @@ class FootballMatchController extends AbstractController
     public function lastMatch(): Response
     {
         return new Response('Dernier match : ');
+    }
+
+    #[Route('/match/cancel/{id}', name: 'match_edit')]
+    #[IsGranted('ROLE_USER')]
+    public function cancel(FootballMatch $match, EntityManagerInterface $manager): Response
+    {
+        $hostingTeam = $match->getHostingTeam();
+        $receivingTeam = $match->getReceivingTeam();
+
+        if ($hostingTeam === null || $receivingTeam === null) {
+            return $this->redirectToRoute($match->getTournament());
+        }
+
+        $logRepo = $manager->getRepository(LogEntry::class);
+
+        $hostingTeamLog = $logRepo->getLogEntries($hostingTeam);
+        $receivingTeamLog = $logRepo->getLogEntries($receivingTeam);
+
+        if (count($hostingTeamLog) > 1 && count($receivingTeamLog) > 1) {
+            $lastHostingLog = $hostingTeamLog[0];
+            $prevHostingLog = $hostingTeamLog[1];
+            $lastReceivingLog = $receivingTeamLog[0];
+            $prevReceivingLog = $receivingTeamLog[1];
+
+            $manager->remove($lastHostingLog);
+            $manager->remove($lastReceivingLog);
+
+            $logRepo->revert($hostingTeam, $prevHostingLog->getVersion());
+            $logRepo->revert($hostingTeam, $prevReceivingLog->getVersion());
+
+            $manager->persist($hostingTeam);
+            $manager->persist($receivingTeam);
+            $manager->remove($match);
+
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute($match->getTournament());
     }
 }
