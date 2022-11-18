@@ -107,7 +107,7 @@ class FootballMatchController extends AbstractController
         return new Response('Dernier match : ');
     }
 
-    #[Route('/match/cancel/{id}', name: 'match_edit')]
+    #[Route('/match/cancel/{id}', name: 'match_cancel')]
     #[IsGranted('ROLE_USER')]
     public function cancel(FootballMatch $match, EntityManagerInterface $manager): Response
     {
