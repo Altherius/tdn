@@ -111,6 +111,12 @@ class FootballMatchController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function cancel(FootballMatch $match, EntityManagerInterface $manager): Response
     {
+        $absoluteLastMatch = $manager->getRepository(FootballMatch::class)->findOneBy([], ['id' => 'desc']);
+
+        if (($absoluteLastMatch instanceof FootballMatch) && $match->getId() !== $absoluteLastMatch->getId()) {
+            $this->addFlash('danger', "Impossible d'annuler ce match, d'autres matchs ont été joués depuis.");
+        }
+
         $hostingTeam = $match->getHostingTeam();
         $receivingTeam = $match->getReceivingTeam();
 

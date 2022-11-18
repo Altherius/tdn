@@ -6,8 +6,6 @@
 
 {% block body %}
     <h1 class="text-center">Éditer un match : {{ match.hostingTeam }} - {{ match.receivingTeam }}</h1>
-
-    <a class="text-decoration-none text-black btn btn-danger" href="{{ path('match_cancel', {'id': match.id}) }}">Annuler le match</a>
     <hr>
 
     {{ form_start(form) }}

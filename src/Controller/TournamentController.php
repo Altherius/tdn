@@ -37,12 +37,15 @@ class TournamentController extends AbstractController
             'tournament' => $tournament
         ], ['id' => 'desc']);
 
+
+        $absoluteLastMatch = $manager->getRepository(FootballMatch::class)->findOneBy([], ['id' => 'desc']);
         $lastMatch = $manager->getRepository(FootballMatch::class)->findTournamentLastMatch($tournament);
 
         return $this->render('tournament/view.html.twig', [
             'tournament' => $tournament,
             'matches' => $matches,
-            'lastMatch' => $lastMatch
+            'lastMatch' => $lastMatch,
+            'absoluteLastMatch' => $absoluteLastMatch
         ]);
     }
 
