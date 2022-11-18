@@ -68,7 +68,8 @@
                     <td>{{ match.description }}</td>
                     {% if is_granted('ROLE_USER') %}
                         <td>
-                            <a class="text-decoration-none text-black" href="{{ path('match_edit', {'id': match.id}) }}">Éditer</a>
+                            <a class="text-decoration-none text-black btn btn-warning" href="{{ path('match_edit', {'id': match.id}) }}">Éditer</a>
+                            <a class="text-decoration-none text-black btn btn-danger" href="{{ path('match_cancel', {'id': match.id}) }}">Annuler</a>
                         </td>
                     {% endif %}
                 </tr>
