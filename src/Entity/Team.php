@@ -267,6 +267,16 @@ class Team
         return $goalsFor - $goalsAgainst;
     }
 
+    public function getMatchPlayedCount(): int
+    {
+        return ($this->getMatchesHosting()->count() + $this->getMatchesReceiving()->count());
+    }
+
+    public function getGoalDiffPerMatch(): float
+    {
+        return number_format($this->getGoalDiff() / $this->getMatchPlayedCount(), 2);
+    }
+
     /**
      * @return Collection<FootballMatch>
      */

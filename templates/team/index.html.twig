@@ -81,7 +81,7 @@
                             style="border-top: 3px solid #ffc107"
                         {% endif %}
 
-                        {% if loop.index == 54 %}
+                        {% if loop.index == (teams|length / 2)  %}
                             style="border-top: 3px solid #d9534f"
                         {% endif %}
                 >
@@ -107,11 +107,11 @@
                         {% endfor %}
                     </td>
                     <td>{{ team.rating }}</td>
-                    <td>{{ team.matchesHosting|length + team.matchesReceiving|length }}</td>
+                    <td>{{ team.matchPlayedCount }}</td>
                     <td>{{ team.victories|length }}</td>
                     <td>{{ team.draws|length }}</td>
                     <td>{{ team.defeats|length }}</td>
-                    <td>{{ team.goalDiff > 0 ? '+' : '' }}{{ team.goalDiff }}</td>
+                    <td>{{ team.goalDiff > 0 ? '+' : '' }} {{ team.goalDiff }} ({{ team.goalDiffPerMatch >= 0 ? '+' : '' }} {{ team.goalDiffPerMatch }}/match)</td>
                     <td>
                         {% for match in team.lastMatches %}
                             {% if team == match.winner %}
