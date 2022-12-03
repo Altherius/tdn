@@ -29,10 +29,10 @@ class Team
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Choice(choices={"Europe", "Asie", "Afrique", "Amérique du Nord", "Amérique du Sud", "Océanie"})
      */
-    private string $region;
+    private ?string $region;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -135,7 +135,7 @@ class Team
         return $this;
     }
 
-    public function getRegion(): string
+    public function getRegion(): ?string
     {
         return $this->region;
     }
