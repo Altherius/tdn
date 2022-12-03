@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TeamRepository::class)
@@ -26,6 +27,12 @@ class Team
      * @ORM\Column(type="string", length=255)
      */
     private string $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Choice(choices={"Europe", "Asie", "Afrique", "Amérique du Nord", "Amérique du Sud", "Océanie"})
+     */
+    private string $region;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -125,6 +132,17 @@ class Team
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getRegion(): string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): Team
+    {
+        $this->region = $region;
         return $this;
     }
 
@@ -274,6 +292,9 @@ class Team
 
     public function getGoalDiffPerMatch(): float
     {
+        if ($this->getMatchPlayedCount() === 0) {
+            return 0.;
+        }
         return number_format($this->getGoalDiff() / $this->getMatchPlayedCount(), 2);
     }
 

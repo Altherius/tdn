@@ -57,6 +57,7 @@
             <tr>
                 <th data-sortable="true">Classement</th>
                 <th data-sortable="false">Pays</th>
+                <th data-sortable="false">Région</th>
                 <th data-sortable="true">Elo</th>
                 <th data-sortable="false">J</th>
                 <th data-sortable="false">V</th>
@@ -81,7 +82,7 @@
                             style="border-top: 3px solid #ffc107"
                         {% endif %}
 
-                        {% if loop.index == (teams|length / 2)  %}
+                        {% if loop.index0 == (teams|length / 2)  %}
                             style="border-top: 3px solid #d9534f"
                         {% endif %}
                 >
@@ -106,6 +107,7 @@
                             {% endif %}
                         {% endfor %}
                     </td>
+                    <td>{{ team.region }}</td>
                     <td>{{ team.rating }}</td>
                     <td>{{ team.matchPlayedCount }}</td>
                     <td>{{ team.victories|length }}</td>

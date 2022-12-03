@@ -12,6 +12,7 @@ class TeamFixtures extends Fixture
     {
         $team1 = (new Team())
             ->setName('France')
+            ->setRegion('Europe')
             ->setRating(1800)
             ->setColor('#4387cc')
             ->setCountryCode('fr')
@@ -19,6 +20,7 @@ class TeamFixtures extends Fixture
 
         $team2 = (new Team())
             ->setName('Espagne')
+            ->setRegion('Europe')
             ->setRating(1500)
             ->setColor('#dd5537')
             ->setCountryCode('es')
