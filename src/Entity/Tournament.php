@@ -43,6 +43,11 @@ class Tournament
     private bool $major = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $balancing = false;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description;
@@ -322,6 +327,17 @@ class Tournament
     public function setMajor(bool $major): Tournament
     {
         $this->major = $major;
+        return $this;
+    }
+
+    public function isBalancing(): bool
+    {
+        return $this->balancing;
+    }
+
+    public function setBalancing(bool $balancing): Tournament
+    {
+        $this->balancing = $balancing;
         return $this;
     }
 }

@@ -27,6 +27,10 @@ class TournamentType extends AbstractType
                 'label' => 'Tournoi majeur (donne des étoiles)',
                 'required' => false
             ])
+            ->add('balancing', CheckboxType::class, [
+                'label' => 'Tournoi de rééquilibrage',
+                'required' => false
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description du tournoi',
                 'required' => false

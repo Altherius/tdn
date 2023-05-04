@@ -25,7 +25,8 @@
             </thead>
             <tbody>
             {% for tournament in tournaments %}
-                <tr {% if tournament.major %} style="background-color: #92D58B" {% endif %} >
+                <tr {% if tournament.major %} style="background-color: #92D58B" {% endif %}
+                        {% if tournament.balancing %} style="background-color: #ffb1ac" {% endif %} >
                     <td>
                         <a class="text-black text-decoration-none" href="{{ path('tournament_view', {'id': tournament.id}) }}">
                             {{ tournament.name }}
