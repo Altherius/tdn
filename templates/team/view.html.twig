@@ -17,9 +17,11 @@
     <hr>
 
     <h2 class="text-center mb-4">Parcours dans les tournois</h2>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#parcours" aria-expanded="false" aria-controls="parcours">
-        Afficher le parcours
-    </button>
+    <div class="text-center">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#parcours" aria-expanded="false" aria-controls="parcours">
+            Afficher le parcours
+        </button>
+    </div>
     <div class="collapse" id="parcours">
       <div class="card card-body">
         {% for tournament in tournaments %}
