@@ -19,11 +19,11 @@
     <h2 class="text-center mb-4">Parcours dans les tournois</h2>
     <div class="text-center">
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#parcours" aria-expanded="false" aria-controls="parcours">
-            Afficher le parcours
+            Afficher/Cacher le parcours
         </button>
     </div>
     <div class="collapse" id="parcours">
-      <div class="card card-body">
+      <div class="card card-body mt-3">
         {% for tournament in tournaments %}
             {% if matches|filter(match => match.tournament == tournament) is not empty %}
             <h3 class="text-center mb-5">
